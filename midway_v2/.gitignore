@@ -8,3 +8,4 @@ build/video_only.mp4
 build/chunks.txt
 build/*.zip
 __pycache__/
+build/mix_voice_sfx.wav
