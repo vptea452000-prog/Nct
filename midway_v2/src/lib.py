@@ -1,4 +1,4 @@
-"""Thư viện dựng hình cho Nct official (khung dọc 1080×1920, phong cách giấy cắt kiểu Vox)."""
+"""Thư viện dựng hình cho kênh Tuấn Nguyễn (khung dọc 1080×1920, phong cách giấy cắt kiểu Vox)."""
 import math, unicodedata
 from functools import lru_cache
 from pathlib import Path
