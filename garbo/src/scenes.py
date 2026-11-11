@@ -115,7 +115,7 @@ def s04_apply(c, t):
     mv = prog(t, 15.8, 16.8, ease_in_out)
     x = lerp(290, 790, mv)
     y = 1000 - 60 * math.sin(math.pi * mv)
-    A("pujol_young").framed(c, x, y, 190, rot=lerp(-6, 6, mv), alpha=pop_in(t, 12.5))
+    A("pujol_beard").framed(c, x, y, 190, rot=lerp(-6, 6, mv), alpha=pop_in(t, 12.5))
     label_tag(c, "đổi cách", W / 2, 1180, prog(t, 15.9, 16.2) * (1 - prog(t, 17.6, 17.8)), size=34, anchor="center", bg="yellow")
     label_tag(c, "hứa sang Anh do thám", 790, 1180, pop_in(t, 18.0), size=32, anchor="center", bg="red", fg="white")
 
@@ -238,7 +238,7 @@ def s08_found(c, t):
     label_tag(c, "tình báo Anh nhận ra: báo cáo bịa", 90, 790, pop_in(t, 39.4), size=32, bg="navy", fg="white")
     pf = pop_in(t, 40.55, 0.4)
     if pf > 0:
-        A("pujol_young").framed(c, 790, 1040, 210, rot=4, scale=lerp(0.8, 1, ease_out(pf)), alpha=clamp(pf * 2))
+        A("pujol_beard").framed(c, 790, 1040, 210, rot=4, scale=lerp(0.8, 1, ease_out(pf)), alpha=clamp(pf * 2))
         r = path_partial(c, [(300, 1060), (660, 1050)], pf, paint("navy", stroke=6), curve=0.1)
         if r:
             arrow_head(c, *r, size=24, color="navy")
@@ -248,7 +248,7 @@ def s09_garbo(c, t):
     draw_paper(c)
     chip(c, "1942 · LONDON", W / 2, CHIP_Y, pop_in(t, 41.45))
     pe = pop_in(t, 41.4, 0.35)
-    A("pujol_young").framed(c, W / 2, 690, 520, rot=lerp(-5, -2, pe), scale=lerp(0.93, 1, pe) + 0.005 * max(0, t - 41.8))
+    A("pujol_beard").framed(c, W / 2, 690, 600, rot=lerp(-5, -2, pe), scale=lerp(0.93, 1, pe) + 0.005 * max(0, t - 41.8), crop=(0.12, 0.10, 0.88, 0.80))
     label_tag(c, "điệp viên hai mang", 70, 1080, pop_in(t, 43.6), size=36, bg="yellow")
     label_tag(c, "MI5 · cơ quan an ninh Anh", 70, 1160, pop_in(t, 45.8), size=32, bg="navy", fg="white")
     stamp(c, "GARBO", 700, 1000, prog(t, 46.85, 47.05), size=84, color="navy", rot=-9)

@@ -28,12 +28,12 @@ Xuất lại: `python3 src/align.py && python3 src/render.py full && mv build/Ga
 |---|---|---|---|---|
 | 0–8,15 | "Thập tự Sắt… huân chương… cùng một chuỗi bức điện" | Thập tự Sắt (ĐỨC, đỏ) và MBE (ANH, navy) đặt xuống; dải băng điện báo nối hai bên | Ảnh hiện vật | Tiếng ngân huân chương, bíp điện báo |
 | 8,15–11,1 | "Juan Pujol… ghét Hitler" | Chân dung, thẻ tên | Ảnh thật | Giấy |
-| 11,1–18,5 | "1941… bị từ chối… đổi cách… tình báo Đức" | Bàn "NGƯỜI ANH" bị dấu TỪ CHỐI; ảnh Pujol nhảy sang bàn "TÌNH BÁO ĐỨC" | Đồ họa + ảnh thật | Dấu, lướt |
+| 11,1–18,5 | "1941… bị từ chối… đổi cách… tình báo Đức" | Bàn "NGƯỜI ANH" bị dấu TỪ CHỐI; ảnh Pujol (cỡ nhỏ) nhảy sang bàn "TÌNH BÁO ĐỨC" | Đồ họa + ảnh thật | Dấu, lướt |
 | 18,5–26,2 | "hứa sang Anh… không sang Anh… Lisbon… như thể ở London" | Bản đồ Madrid → London (gạch X), ghim Lisbon, phong bì đóng dấu bưu điện "LONDON" giả | Đồ họa | Bút, dấu |
 | 26,2–30,6 | "sách du lịch, bản đồ, bảng giờ tàu, phim thời sự" | Bốn món tư liệu bật ra theo từng chữ | Đồ họa | Giấy |
 | 30,6–37,9 | "một lít rượu vang… không dùng lít… vẫn tin" | Báo cáo đánh máy (diễn ý), khoanh đỏ "LÍT", dấu "ĐỨC VẪN TIN" | Đồ họa | Máy chữ, dấu |
 | 37,9–41,4 | "tình báo Anh nhận ra… tìm tới ông" | Điện Đức bị giải mã (minh họa) + kính lúp; mũi tên tới ảnh Pujol | Đồ họa + ảnh | Lướt |
-| 41,4–47,75 | "1942… hai mang… MI5… Garbo" | Ảnh Pujol, dấu "GARBO" (navy) | Ảnh thật | Dấu |
+| 41,4–47,75 | "1942… hai mang… MI5… Garbo" | Ảnh Pujol cắt cận mặt, dấu "GARBO" (navy) | Ảnh thật | Dấu |
 | 47,75–53,0 | "27 điệp viên… Đức gửi tiền" | Sơ đồ mạng lưới Garbo (hồ sơ MI5); tiền bay vào | Ảnh tài liệu + đồ họa | Tiền rơi |
 | 53,0–59,8 | "1944… Normandy… Pas-de-Calais" | Bản đồ Overlord TOP SECRET; bản đồ eo biển: Normandy (thật) / Pas-de-Calais (điều Đức phải tin) | Tài liệu + đồ họa | — |
 | 59,8–62,9 | "hơn năm trăm bức điện" | Bộ đếm 0 → 500+, chồng điện cao dần | Đồ họa | Bíp điện báo |
@@ -54,10 +54,14 @@ Xuất lại: `python3 src/align.py && python3 src/render.py full && mv build/Ga
 |---|---|---|
 | `iron_cross.jpg` | Thập tự Sắt hạng Hai (1939), ảnh hiện vật | Hiện vật cùng loại, không phải chiếc của Pujol |
 | `mbe.jpg` | Huân chương MBE (hai mặt) | Hiện vật cùng loại |
-| `pujol_beard.jpg` | Juan Pujol (ảnh thường dùng) | Chưa rõ năm chụp |
-| `pujol_young.jpg` | Ảnh Pujol thời trẻ (độ phân giải thấp, chỉ dùng cỡ nhỏ) | Cần xác nhận đúng là Pujol |
+| `pujol_beard.jpg` | Juan Pujol (ảnh thường dùng); dùng ở 8–11 s, 11–18 s (cỡ nhỏ), 40,6 s, 41–48 s (cắt cận mặt), 102–110 s | Chưa rõ năm chụp |
+| `not_pujol_do_not_use.jpg` | **Không phải Juan Pujol** (chủ kênh xác nhận) — đã gỡ khỏi video, không dùng | |
 | `garbo_network.jpg` | Sơ đồ "THE GARBO NETWORK" trong hồ sơ MI5 | |
 | `overlord_map.jpg` | Bản đồ khu C, kế hoạch Overlord, TOP SECRET, 5/1944 | |
 | `omaha_jaws.jpg` | "Into the Jaws of Death", Omaha, 6/6/1944 (Robert F. Sargent, NARA) | |
 | `venezuela_passport.jpg` | Hộ chiếu Venezuela mang tên Juan Pujol García | |
 | Chưa dùng | `bodyguard_map.jpg` (bản đồ hiện đại các chiến dịch nghi binh), `bigot_document.jpg`, `eisenhower_order.jpg` (có thể dùng ở bản sau); `unidentified_portrait.jpg`, `unidentified_coast_aerial.jpg` (chưa nhận diện được) | |
+
+## Sửa đổi
+
+- v1 (sửa 1): gỡ ảnh bị nhận nhầm là Pujol (chủ kênh xác nhận không phải ông) ở 12,5–18,5 s, 40,6 s và 41,4–47,75 s; thay bằng ảnh Pujol râu, đeo kính.
