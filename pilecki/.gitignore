@@ -1,0 +1,9 @@
+build/voice16k.raw
+build/map_big.png
+build/preview_*.png
+build/pv*.png
+build/video_only.mp4
+build/chunks.txt
+build/Pilecki_v1_nosfx.mp4
+build/mix_voice_sfx.wav
+__pycache__/

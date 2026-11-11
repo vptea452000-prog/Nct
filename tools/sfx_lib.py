@@ -348,10 +348,11 @@ def write_wav(path, x):
         w.writeframes(y[: int(DUR * SR)].tobytes())
 
 
-def export(video_in, video_out):
+def export(video_in, video_out, pre_gain_db=0.0):
     """Trộn giọng + EVENTS, giới hạn đỉnh −1 dB, ghép vào video; lưu thêm lớp hiệu ứng riêng."""
     from scipy.io import wavfile
     v, sfx, out = mix()
+    out = out * db(pre_gain_db)  # đưa âm lượng tổng về ~ -14 LUFS trước limiter
     B = ROOT / "build"
     write_wav(B / "sfx_stem.wav", sfx)
     wavfile.write(B / "mix_float.wav", SR, out[: int(DUR * SR)].astype(np.float32))

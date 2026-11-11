@@ -5,4 +5,4 @@ Kênh kể chuyện lịch sử có thật bằng tiếng Việt (trước đây
 | Tập | Thư mục | Trạng thái |
 |---|---|---|
 | Bức điện báo thiếu nước ở Midway đã khiến quân Nhật để lộ điều gì? | [midway_v2/](midway_v2/) | v2 đã chốt; còn việc trước khi đăng trong `BAN_GIAO.md` |
-| Vì sao một sĩ quan Ba Lan tự nộp mình vào Auschwitz? | [pilecki/](pilecki/) | Đã đối chiếu kịch bản (`DOI_CHIEU.md`); chờ MP3 |
+| Vì sao một sĩ quan Ba Lan tự nộp mình vào Auschwitz? | [pilecki/](pilecki/) | v1 đã dựng (có hiệu ứng tiếng); chờ chủ kênh duyệt — `BAN_GIAO.md` |
