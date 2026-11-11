@@ -95,17 +95,3 @@ Claude không nghe được nội dung MP3, nên chưa xác nhận được lờ
 ## Phiên bản đã chốt
 
 **Chủ kênh chọn v2 (11/11/2026).** Bản v3 (thêm chuyển cảnh trượt, chất phim, rung khung, tô vàng từ khoá trong phụ đề) không được chọn; mã v3 vẫn còn trong lịch sử git (commit 74aee71) để tham khảo. Các tập sau giữ phong cách v2 làm mốc.
-
-## Bản có hiệu ứng âm thanh (thử nghiệm, chờ chủ kênh chọn)
-
-`build/Midway_v2_sfx.mp4`: hình giữ nguyên v2, thêm 248 hiệu ứng **tự tổng hợp bằng code** (`src/sfx.py`, không dùng file ngoài nên không vướng bản quyền), mỗi hiệu ứng bám đúng mốc chuyển động trên hình.
-
-- Máy chữ theo từng chữ điện văn; dấu "MỒI NHỬ", "HỎNG", "4/6" đóng xuống; giấy trượt, ảnh đặt xuống; ghim/nhãn bật; bút dạ quang
-- Nhiễu vô tuyến + bíp điện báo khi phát tin và khi nghe điện Nhật; tiếng điện chạy dọc đường cáp
-- Nhóm mã nhảy số khi giải mã; cú nhấn trầm khi "AF" xuất hiện (29,24 s và 87,33 s)
-- Máy bay lướt qua và tiếng nổ đục ở cảnh "nếu đoán nhầm" và khi Midway bị đánh (90,43 s); đồng hồ tích tắc khi lịch chạy
-- Hiệu ứng tự hạ ~7 dB khi đang có lời; cú nhấn mạnh nhất vẫn thấp hơn giọng ~8 dB
-- Âm lượng tổng −14,3 LUFS, đỉnh −1,2 dBTP (bản v2 gốc: −14,1 LUFS, đỉnh +1,0 dBTP do MP3 giọng có đỉnh vượt 0 dB)
-- `build/sfx_stem.wav`: riêng lớp hiệu ứng, để chỉnh trong CapCut nếu cần
-
-Claude không nghe được âm thanh: mức và mốc được đo bằng số, còn độ hay/dở phải do chủ kênh nghe duyệt.
