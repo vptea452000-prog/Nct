@@ -1,0 +1,10 @@
+build/voice16k.raw
+build/map_big.png
+build/preview_*.png
+build/pv*.png
+build/fonttest.png
+build/last.png
+build/video_only.mp4
+build/chunks.txt
+build/*.zip
+__pycache__/
