@@ -1,14 +1,14 @@
-# Midway v2 — ghi chú bàn giao
+# Midway v3 — ghi chú bàn giao
 
 **Tập:** Bức điện báo thiếu nước ở Midway đã khiến quân Nhật để lộ điều gì?
-**Phiên bản:** v2 · Shorts 1080 × 1920, 30 fps · dài 1:39,8 (theo MP3)
+**Phiên bản:** v3 · Shorts 1080 × 1920, 30 fps · dài 1:39,8 (theo MP3)
 
 ## Bộ file
 
 | File | Nội dung |
 |---|---|
-| `build/Midway_v2.mp4` | Bản đầy đủ: H.264 CRF 19, yuv420p, AAC 192 kbps, phụ đề in cứng |
-| `build/Midway_v2.srt` | Phụ đề riêng (UTF-8) |
+| `build/Midway_v3.mp4` | Bản đầy đủ: H.264 CRF 19, yuv420p, AAC 192 kbps, phụ đề in cứng |
+| `build/Midway_v3.srt` | Phụ đề riêng (UTF-8) |
 | `build/contact_sheet.png` | Dải khung hình toàn tập, 1 khung mỗi 1,5 s |
 | `src/` | Mã dựng: `scenes.py` (bảng dựng), `lib.py` (đồ họa), `subs.py` (phụ đề), `align.py` (căn mốc), `render.py` (xuất) |
 | `src/script.txt` | Kịch bản đúng bản chủ kênh gửi |
@@ -91,3 +91,12 @@ Claude không nghe được nội dung MP3, nên chưa xác nhận được lờ
 - Font tài liệu đổi sang Liberation Mono để đủ dấu viết hoa (DejaVu Sans Mono mất dấu ở Ở, Ỉ, Ầ, Ế).
 - Chữ trên hình về bức điện Nhật để trung tính (không ghi "gửi về Tokyo").
 - Không còn khung trống khi đang có lời.
+
+## Thay đổi v3 (so với v2)
+
+- **Chuyển cảnh:** ảnh đảo mở đầu thu nhỏ đúng vào chấm Midway trên bản đồ; giấy trượt đẩy cảnh (push) giữa các cảnh khác loại; hòa cảnh 0,4 s giữa bản đồ và ảnh. Giữ cắt thẳng ở cú nhấn ngày 4/6 (87,97 s) và lúc Midway bị đánh (90,43 s).
+- **Không khung nào đứng im:** bản đồ phóng chậm liên tục, ảnh in trên giấy lớn dần, ảnh phủ kín đẩy chậm sau nhịp vào, tài liệu giải mã xoay rất nhẹ.
+- **Chất phim cho ảnh tư liệu:** vignette, chớp sáng nhẹ, bụi và xước ngẫu nhiên.
+- **Cú nhấn:** rung khung 0,3 s khi "MỒI NHỬ" (9,4 s), "AF" (29,3 s), "AF = HAWAII?" (37,0 s), "HỎNG" (54,7 s), "AF" trên đảo (87,4 s); tia sáng toả quanh AF; chớp trắng và rung khi Midway bị đánh.
+- **Chi tiết:** con trỏ nhấp nháy khi đánh máy điện văn; vòng lan ra khi ghim địa danh xuất hiện; khói máy chưng cất làm mềm.
+- **Phụ đề:** bật vào nhẹ (0,14 s); tô vàng từ khoá của tập: "AF", "hai tuần", "mười lăm ngày".

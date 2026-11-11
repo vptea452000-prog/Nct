@@ -532,3 +532,64 @@ def antenna_icon(c, x, y, p, color="red", s=1.0):
         for r in (16, 28):
             arc = skia.Path(); arc.addArc(skia.Rect.MakeXYWH(-r, -4 - r, 2 * r, 2 * r), -150, 120)
             c.drawPath(arc, paint(color, stroke=4))
+
+
+# ---------- hoàn thiện v3: chất phim, độ trôi, chuyển cảnh ----------
+def vignette(c, a=150, inner=0.45, cy=900):
+    sh = skia.GradientShader.MakeRadial(skia.Point(W / 2, cy), 1250,
+                                        [skia.ColorSetARGB(0, 0, 0, 0), skia.ColorSetARGB(int(a), 10, 8, 5)], [inner, 1.0])
+    c.drawRect(skia.Rect.MakeWH(W, H), skia.Paint(Shader=sh))
+
+
+def film(c, t, strength=1.0):
+    """Chất phim tư liệu: vignette, chớp sáng nhẹ, bụi và xước ngẫu nhiên theo khung hình."""
+    vignette(c, 165 * strength)
+    fr = int(t * FPS)
+    rng = np.random.default_rng(fr * 7919 + 13)
+    fl = rng.normal(0, 1)
+    c.drawRect(skia.Rect.MakeWH(W, H), paint("white" if fl > 0 else "ink", min(14, abs(fl) * 7) * strength))
+    for _ in range(rng.integers(2, 7)):
+        x, y = rng.uniform(0, W), rng.uniform(0, H)
+        r = rng.uniform(1.2, 3.2)
+        c.drawCircle(x, y, r, paint("white" if rng.random() < 0.6 else "ink", rng.uniform(70, 150) * strength))
+    if rng.random() < 0.18:
+        x = rng.uniform(80, W - 80)
+        c.drawLine(x, 0, x + rng.uniform(-6, 6), H, paint("white", 40 * strength, stroke=1.4))
+
+
+def shake(t, t0, dur=0.35, amp=14):
+    """Độ rung (dx, dy) giảm dần sau t0."""
+    if not (t0 <= t < t0 + dur):
+        return 0.0, 0.0
+    k = 1 - (t - t0) / dur
+    return amp * k * math.sin((t - t0) * 95), amp * k * math.cos((t - t0) * 77)
+
+
+def drift_cam(cam, t, t0, rate=0.012):
+    """Máy quay bản đồ không bao giờ đứng yên: phóng chậm ~1,2%/s."""
+    return (cam[0], cam[1], cam[2] * (1 + rate * max(0.0, t - t0)))
+
+
+def pin_burst(c, x, y, t, t0, color="yellow"):
+    """Vòng lan ra khi ghim xuất hiện."""
+    age = t - t0
+    if 0 < age < 0.7:
+        c.drawCircle(x, y, 14 + age * 110, paint(color, 230 * (1 - age / 0.7), stroke=5))
+
+
+def cursor(c, x, y, t, size=46, on=True):
+    if on and int(t * 3.2) % 2 == 0:
+        c.drawRect(skia.Rect.MakeXYWH(x + 4, y - size * 0.8, size * 0.5, size * 0.95), paint("ink", 200))
+
+
+def burst(c, x, y, t, t0, color="yellow", n=12, r0=120, r1=260, dur=0.4, width=9):
+    """Tia sáng toả ra khi một chi tiết quan trọng xuất hiện."""
+    age = t - t0
+    if not (0 < age < dur):
+        return
+    k = ease_out(age / dur)
+    for i in range(n):
+        a = i * 2 * math.pi / n + 0.2
+        ra, rb = lerp(r0 * 0.7, r1, k), lerp(r0, r1 * 1.15, k)
+        c.drawLine(x + ra * math.cos(a), y + ra * math.sin(a), x + rb * math.cos(a), y + rb * math.sin(a),
+                   paint(color, 255 * (1 - k), stroke=width))

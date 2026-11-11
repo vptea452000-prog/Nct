@@ -1,6 +1,6 @@
 """Phụ đề tiếng Việt: chia theo cụm nghĩa, tối đa 2 dòng cân nhau, xuất SRT."""
 import json
-from lib import ROOT, tw, nfc, text, W
+from lib import ROOT, tw, nfc, text, W, clamp, ease_out
 
 SIZE = 54
 MAX_LINE = 900  # px, trong vùng an toàn (chừa ~150 px mép phải)
@@ -133,14 +133,46 @@ def write_srt(cues, path):
             f.write(f"{i}\n{srt_time(q['start'])} --> {srt_time(q['end'])}\n" + "\n".join(nfc(l) for l in q["lines"]) + "\n\n")
 
 
+KEYWORDS = [("af",), ("hai", "tuần"), ("mười", "lăm", "ngày")]
+
+
+def _bare(w):
+    return w.strip(".,:;?!").lower()
+
+
+def draw_line_kw(c, line, y):
+    """Một dòng phụ đề, tô vàng từ khoá của tập (AF, hai tuần, mười lăm ngày)."""
+    toks = line.split(" ")
+    mark = [False] * len(toks)
+    for kw in KEYWORDS:
+        for i in range(len(toks) - len(kw) + 1):
+            if tuple(_bare(x) for x in toks[i:i + len(kw)]) == kw:
+                for j in range(i, i + len(kw)):
+                    mark[j] = True
+    sp = tw(" ", "bold", SIZE)
+    total = tw(line, "bold", SIZE)
+    x = W / 2 - total / 2
+    for tok, m in zip(toks, mark):
+        w = text(c, tok, x, y, "bold", SIZE, "yellow" if m else "white", stroke=4, stroke_color="ink")
+        x += w + sp
+
+
 def draw_sub(c, cues, t):
     for q in cues:
         if q["start"] <= t < q["end"]:
             lines = q["lines"]
             # vùng phụ đề 1300–1440
             ys = [1392] if len(lines) == 1 else [1352, 1418]
+            age = t - q["start"]
+            k = clamp(age / 0.14)
+            sc = 0.94 + 0.06 * ease_out(k)
+            c.saveLayerAlpha(None, int(255 * clamp(0.25 + k)))
+            c.translate(W / 2, 1380)
+            c.scale(sc, sc)
+            c.translate(-W / 2, -1380)
             for y, l in zip(ys, lines):
-                text(c, l, W / 2, y, "bold", SIZE, "white", align="center", stroke=4, stroke_color="ink")
+                draw_line_kw(c, l, y)
+            c.restore()
             return
 
 
