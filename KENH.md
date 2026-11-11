@@ -2,7 +2,7 @@
 
 | Hạng mục | Đã chốt |
 |---|---|
-| Tên hiển thị | **Tuấn Nguyễn** (đổi từ 11/2026; trước đây là Nct official, Vox'NCT) |
+| Tên hiển thị | **Nct official** (11/2026 từng đổi sang Tuấn Nguyễn rồi quay về Nct official; trước đó là Vox'NCT) |
 | Tên, logo trên video | **Không hiện** tên kênh hay logo trong video (chủ kênh dặn 11/2026) |
 | Đề tài | Lịch sử, vụ việc có thật lần theo được; mỗi tập trả lời một câu hỏi cụ thể |
 | Định dạng | Shorts 9:16, 1080 × 1920, 30 fps; bản dài 16:9 dựng riêng về sau |

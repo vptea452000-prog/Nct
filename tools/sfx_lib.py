@@ -1,4 +1,4 @@
-"""Thư viện hiệu ứng âm thanh tự tổng hợp cho kênh Tuấn Nguyễn (không dùng file ngoài, không vướng bản quyền).
+"""Thư viện hiệu ứng âm thanh tự tổng hợp cho kênh Nct official (không dùng file ngoài, không vướng bản quyền).
 
 Cách dùng cho một tập:
     import sfx_lib as S

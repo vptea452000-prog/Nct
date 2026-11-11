@@ -1,6 +1,6 @@
-# Tuấn Nguyễn — sản xuất video
+# Nct official — sản xuất video
 
-Kênh kể chuyện lịch sử có thật bằng tiếng Việt (trước đây là Nct official, Vox'NCT). Hồ sơ kênh: [KENH.md](KENH.md).
+Kênh kể chuyện lịch sử có thật bằng tiếng Việt (trước đây là Vox'NCT; từng đổi tên Tuấn Nguyễn một thời gian ngắn). Hồ sơ kênh: [KENH.md](KENH.md).
 
 | Tập | Thư mục | Trạng thái |
 |---|---|---|
