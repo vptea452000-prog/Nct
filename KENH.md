@@ -11,3 +11,12 @@
 | Phong cách dựng mốc | **Midway v2** (chủ kênh chọn 11/11/2026): cắt thẳng theo lời, không thêm chuyển cảnh trượt, chất phim, rung khung hay tô vàng từ khoá trong phụ đề như bản v3 |
 
 Quy trình đầy đủ theo tài liệu "Quy trình sản xuất video" của chủ kênh.
+
+## Quy tắc dùng ảnh (chủ kênh dặn 11/2026, sau lỗi ảnh nhận nhầm là Juan Pujol)
+
+1. **Chỉ dùng ảnh đã xác minh được** người, nơi, thời điểm. Không nhận diện theo kiểu "trông giống".
+2. Ảnh nào **chưa chắc chắn thì không đưa vào video**. Claude liệt kê riêng và hỏi chủ kênh trước khi dựng, không tự đoán.
+3. Xác minh dựa trên **trang gốc**: cơ quan lưu trữ, bảo tàng (NARA, IWM, Lưu trữ Quốc gia Anh, Bảo tàng Auschwitz, IPN…). Khi gửi ảnh, chủ kênh kèm link trang gốc nếu có. Khi môi trường mở được mạng, Claude tự tra lại.
+4. Chú thích trên hình chỉ ghi điều nguồn xác nhận. Không rõ ngày thì không ghi ngày. Ảnh chụp sau sự kiện ghi "chụp sau này". Hiện vật cùng loại (huân chương, vũ khí) ghi rõ là hiện vật cùng loại.
+5. Một người không có ảnh xác minh được thì dùng hình bóng trung tính kèm tên, **không mượn ảnh người khác**.
+6. Bàn giao luôn có bảng tư liệu: file → nhận diện → nguồn → mức chắc chắn; ảnh bị loại ghi rõ lý do.
