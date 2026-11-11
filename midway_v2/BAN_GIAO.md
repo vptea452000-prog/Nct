@@ -91,3 +91,7 @@ Claude không nghe được nội dung MP3, nên chưa xác nhận được lờ
 - Font tài liệu đổi sang Liberation Mono để đủ dấu viết hoa (DejaVu Sans Mono mất dấu ở Ở, Ỉ, Ầ, Ế).
 - Chữ trên hình về bức điện Nhật để trung tính (không ghi "gửi về Tokyo").
 - Không còn khung trống khi đang có lời.
+
+## Phiên bản đã chốt
+
+**Chủ kênh chọn v2 (11/11/2026).** Bản v3 (thêm chuyển cảnh trượt, chất phim, rung khung, tô vàng từ khoá trong phụ đề) không được chọn; mã v3 vẫn còn trong lịch sử git (commit 74aee71) để tham khảo. Các tập sau giữ phong cách v2 làm mốc.
