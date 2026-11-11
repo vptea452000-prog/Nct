@@ -2,7 +2,7 @@
 
   python3 src/render.py preview 3.0 29.5 ...   → build/preview_<t>.png (xem thử khung hình)
   python3 src/render.py sheet                  → build/contact_sheet.png (dải khung hình toàn tập, 1 khung/1,5 s)
-  python3 src/render.py full                   → build/Midway_v3.mp4 + build/Midway_v3.srt
+  python3 src/render.py full                   → build/Midway_v2.mp4 + build/Midway_v2.srt
 """
 import json, math, subprocess, sys
 from multiprocessing import Pool
@@ -55,7 +55,7 @@ def render_chunk(args):
 
 
 def full(workers=4):
-    subs.write_srt(cues(), BUILD / "Midway_v3.srt")
+    subs.write_srt(cues(), BUILD / "Midway_v2.srt")
     step = math.ceil(NFR / (workers * 3))
     jobs = [(k, f0, min(NFR, f0 + step)) for k, f0 in enumerate(range(0, NFR, step))]
     with Pool(workers) as pool:
@@ -65,10 +65,10 @@ def full(workers=4):
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(BUILD / "video_only.mp4")], check=True)
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(BUILD / "video_only.mp4"), "-i", str(ROOT / "audio/voice.mp3"),
                     "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
-                    "-t", f"{DUR:.3f}", "-movflags", "+faststart", str(BUILD / "Midway_v3.mp4")], check=True)
+                    "-t", f"{DUR:.3f}", "-movflags", "+faststart", str(BUILD / "Midway_v2.mp4")], check=True)
     for c in chunks:
         c.unlink()
-    print("xong:", BUILD / "Midway_v3.mp4")
+    print("xong:", BUILD / "Midway_v2.mp4")
 
 
 if __name__ == "__main__":

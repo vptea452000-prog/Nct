@@ -41,7 +41,6 @@ def place_pins(c, cam, t, which, t_on=None):
     for k in which:
         x, y = mp(*PLACES[k], cam)
         p = prog(t, t_on.get(k, -10), t_on.get(k, -10) + 0.35)
-        pin_burst(c, x, y, t, t_on.get(k, -10) + 0.12)
         pin(c, x, y, p)
         s, dx, dy, an = labels[k]
         label_tag(c, s, x + dx, y + dy, p, size=32, anchor=an)
@@ -50,9 +49,8 @@ def place_pins(c, cam, t, which, t_on=None):
 # ------------------------------------------------------------------ CẢNH
 def s01_atoll(c, t):
     ph = A("atoll")
-    z = lerp(1.50, 1.30, prog(t, 0, 0.9)) - 0.03 * clamp(t / 2.65)
+    z = lerp(1.30, 1.22, prog(t, 0, 2.65, lambda x: x))
     ph.cover(c, skia.Rect.MakeWH(W, H), 0.34, 0.60, z)
-    film(c, t)
     chip(c, "20 THÁNG 5 · 1942", W / 2, CHIP_Y, prog(t, 0.40, 0.75))
     label_tag(c, "ĐẢO MIDWAY", 60, 1120, prog(t, 0.9, 1.2), size=40)
     caption(c, "Ảnh: Hải quân Mỹ, chụp 11/1941", 1190)
@@ -74,22 +72,16 @@ def msg_card(c, x, y, t, t_type0, t_type1, t_hl, t_l3=None, scale=1.0, alpha=1.0
         pre = fx.measureText(nfc("ĐỦ DÙNG "))
         hw = fx.measureText(nfc("HAI TUẦN"))
         highlight(c, 36 + pre, 186, hw, 58, 1 if done else prog(t, t_hl, t_hl + 0.3))
-        w1 = text(c, a1, 36, 140, "mono", 50)
-        w2 = text(c, a2, 36, 230, "mono", 50)
-        p3 = 1 if done else prog(t, t_l3, t_l3 + 0.75, lambda q: q) if t_l3 is not None else 0
+        text(c, a1, 36, 140, "mono", 50)
+        text(c, a2, 36, 230, "mono", 50)
         if t_l3 is not None:
-            w3 = text(c, typed("XIN TIẾP TẾ NGAY.", p3), 36, 310, "mono", 50)
-        if not done:
-            if 0 < p < 1:
-                cursor(c, 36 + (w2 if a2 else w1), 230 if a2 else 140, t, 50)
-            elif t_l3 is not None and 0 < p3 < 1:
-                cursor(c, 36 + w3, 310, t, 50)
+            text(c, typed("XIN TIẾP TẾ NGAY.", 1 if done else prog(t, t_l3, t_l3 + 0.75, lambda q: q)), 36, 310, "mono", 50)
 
 
 def s02_map_msg(c, t):
     m = A("map")
     # 2.65–10.0 Hawaii–Midway; 10.0–11.0 kéo bản đồ sang để thấy Nhật
-    cam = drift_cam(cam_lerp(CAM_HM, CAM_JP, prog(t, 10.0, 11.0, ease_in_out)), t, 2.65, 0.007)
+    cam = cam_lerp(CAM_HM, CAM_JP, prog(t, 10.0, 11.0, ease_in_out))
     m.draw(c, cam)
     mx, my = mp(*PLACES["midway"], cam)
     ox, oy = mp(*PLACES["oahu"], cam)
@@ -136,7 +128,6 @@ def s05_decrypt(c, t):
     c.translate(fx, fy)  # giữ hàng MỤC TIÊU tại chỗ để tài liệu không lấn vùng 0–180 px
     c.scale(z, z)
     c.translate(-fx, -fy)
-    c.rotate(lerp(-0.8, 0.4, clamp((t - 18.28) / 11.7)), 540, 760)
     x0, y0, w, h = 80, 360, 920, 760
     with Xf(c, 0, 0, 0.0):
         card(c, x0, y0, w, h, "white", r=4)
@@ -179,7 +170,6 @@ def s05_decrypt(c, t):
                 text(c, "?  ?", bx + bw / 2, yt, "mono", 50, "grey", a=200 * prog(t, 27.2, 27.6), align="center")
         else:
             p = prog(t, 29.22, 29.45, back_out)
-            burst(c, bx + bw / 2, by + bh / 2, t, 29.24, "yellow", r0=170, r1=330)
             with Xf(c, bx + bw / 2, by + bh / 2, 0, lerp(1.6, 1.0, clamp(p))):
                 c.drawRect(skia.Rect.MakeXYWH(-bw / 2, -bh / 2, bw, bh), paint("yellow"))
                 c.drawRect(skia.Rect.MakeXYWH(-bw / 2, -bh / 2, bw, bh), paint("ink", stroke=5, cap=False))
@@ -189,7 +179,7 @@ def s05_decrypt(c, t):
 
 def s07_map_af(c, t):
     m = A("map")
-    cam = drift_cam(cam_lerp(CAM_JP, (170.0, 20.0, 10.0), prog(t, 33.4, 34.4, ease_in_out)), t, 29.96, 0.01)
+    cam = cam_lerp(CAM_JP, (170.0, 20.0, 10.0), prog(t, 33.4, 34.4, ease_in_out))
     m.draw(c, cam)
     place_pins(c, cam, t, ["midway", "oahu", "tokyo"], {"midway": 29.9, "oahu": 29.9, "tokyo": 29.9})
     mx, my = mp(*PLACES["midway"], cam)
@@ -209,7 +199,7 @@ def s07_map_af(c, t):
 def s08_pearl(c, t):
     ph = A("yorktown")
     ph.blur_bg(c)
-    ph.framed(c, W / 2, 700, 1000, rot=lerp(-3.0, -1.0, prog(t, 34.69, 35.1)), scale=lerp(0.95, 1.0, prog(t, 34.69, 35.1)) + 0.008 * max(0, t - 35.1))
+    ph.framed(c, W / 2, 700, 1000, rot=lerp(-3.0, -1.0, prog(t, 34.69, 35.1)), scale=lerp(0.95, 1.0, prog(t, 34.69, 35.1)))
     chip(c, "TRÂN CHÂU CẢNG · HAWAII", W / 2, CHIP_Y, prog(t, 34.75, 35.1), size=38)
     caption(c, "Ảnh: Trân Châu Cảng, 29/5/1942 (Hải quân Mỹ)", 1160)
     label_tag(c, "AF = nơi khác?", 120, 470, prog(t, 36.2, 36.5) * (1 - prog(t, 36.85, 37.0)), size=38, bg="white", fg="grey")
@@ -218,15 +208,14 @@ def s08_pearl(c, t):
 
 def s09_nimitz(c, t):
     ph = A("nimitz")
-    z = lerp(1.12, 1.0, prog(t, 37.69, 38.2)) + 0.014 * max(0, t - 38.2)
+    z = lerp(1.10, 1.0, prog(t, 37.69, 38.15))
     ph.cover(c, skia.Rect.MakeWH(W, H), 0.5, 0.36, z)
-    film(c, t)
     name_tag(c, 60, 1000, "Đô đốc Chester Nimitz", "Tư lệnh Hạm đội Thái Bình Dương", prog(t, 38.05, 38.45), size=44, role_size=30)
 
 
 def s10_wrong(c, t):
     m = A("map")
-    cam = drift_cam(CAM_HM2, t, 40.66, 0.01)
+    cam = CAM_HM2
     m.draw(c, cam)
     place_pins(c, cam, t, ["midway", "oahu"])
     chip(c, "NẾU ĐOÁN NHẦM", W / 2, CHIP_Y, prog(t, 40.70, 41.05), size=44, bg="red", fg="white")
@@ -287,7 +276,6 @@ def s12_island(c, t):
     ph = A("atoll")
     z = lerp(1.75, 2.0, prog(t, 51.26, 53.56, lambda x: x))
     ph.cover(c, skia.Rect.MakeWH(W, H), 0.43, 0.36, z)
-    film(c, t)
     caption(c, "Ảnh: Midway, chụp 11/1941 (Hải quân Mỹ)", 1190)
 
 
@@ -302,9 +290,7 @@ def s13_distiller(c, t):
         st = 54.0 + i * 0.12
         if t > st:
             age = t - st
-            sp = paint("grey", 170 * clamp(1 - age / 1.2))
-            sp.setMaskFilter(skia.MaskFilter.MakeBlur(skia.kNormal_BlurStyle, 9 + age * 14))
-            c.drawCircle(cx + 120 + math.sin(i * 2) * 30 + age * 40, cy - 260 - age * 160, 26 + age * 46, sp)
+            c.drawCircle(cx + 120 + math.sin(i * 2) * 30 + age * 40, cy - 260 - age * 160, 26 + age * 40, paint("grey", 150 * clamp(1 - age / 1.2)))
     with Xf(c, cx, cy, 0):
         shadow_begin(c, skia.Rect.MakeXYWH(-300, -400, 600, 800))
         c.drawRRect(skia.RRect.MakeRectXY(skia.Rect.MakeXYWH(-140, -220, 280, 420), 40, 40), paint("#B9AE96"))
@@ -347,7 +333,7 @@ def legend(c, t, active):
 
 def s13_cable(c, t):
     m = A("map")
-    cam = drift_cam(cam_lerp(CAM_HM, CAM_JP, prog(t, 61.3, 62.3, ease_in_out)), t, 55.28, 0.006)
+    cam = cam_lerp(CAM_HM, CAM_JP, prog(t, 61.3, 62.3, ease_in_out))
     m.draw(c, cam)
     pts = [mp(lon, lat, cam) for lon, lat in CHAIN]
     pc = prog(t, 58.10, 59.20, lambda q: q)
@@ -389,7 +375,7 @@ def s15_listen(c, t):
             age = t - st
             r = 200 + age * 420
             c.drawCircle(-260, 760, r, paint("red", 190 * clamp(1 - age / 2.0), stroke=6))
-    A("rochefort").framed(c, 610, 740, 600, rot=lerp(4, 2, prog(t, 67.6, 67.95)), scale=lerp(0.94, 1, prog(t, 67.6, 67.95)) + 0.01 * max(0, t - 67.95))
+    A("rochefort").framed(c, 610, 740, 600, rot=lerp(4, 2, prog(t, 67.6, 67.95)), scale=lerp(0.94, 1, prog(t, 67.6, 67.95)))
     label_tag(c, "NHÓM ROCHEFORT", 70, 1080, prog(t, 67.65, 67.95), size=38)
     label_tag(c, "nghe điện hải quân Nhật", 70, 1160, prog(t, 68.33, 68.6), size=34, bg="red", fg="white")
 
@@ -413,12 +399,7 @@ def melb_doc(c, t, x, y, scale, alpha, show_midway):
         l4 = "CHỈ ĐỦ CHO HAI TUẦN."
         pre4 = fm.measureText(nfc("CHỈ ĐỦ CHO "))
         highlight(c, 36 + pre4, 426, fm.measureText(nfc("HAI TUẦN")), 58, prog(t, 83.0, 83.3))
-        w4 = text(c, typed(l4, prog(t, 82.4, 83.25, lambda q: q)), 36, 470, "mono", 46)
-        for (a_, b_, yy, ww) in [(77.2, 78.1, 240, None), (78.56, 79.3, 310, None), (81.82, 82.4, 400, None), (82.4, 83.25, 470, w4)]:
-            pp = prog(t, a_, b_, lambda q: q)
-            if 0 < pp < 1:
-                txt = {240: "ĐƠN VỊ KHÔNG QUÂN Ở AF", 310: "XIN TIẾP TẾ NƯỚC.", 400: "NƯỚC CÒN LẠI", 470: l4}[yy]
-                cursor(c, 36 + fm.measureText(typed(txt, pp)), yy, t, 46)
+        text(c, typed(l4, prog(t, 82.4, 83.25, lambda q: q)), 36, 470, "mono", 46)
 
 
 def s16_melbourne(c, t):
@@ -449,10 +430,9 @@ def s16_melbourne(c, t):
 def s19_af(c, t):
     ph = A("atoll")
     ph.blur_bg(c)
-    ph.framed(c, W / 2, 720, 880, rot=lerp(2.5, 1.0, prog(t, 83.59, 83.95)), scale=lerp(0.95, 1, prog(t, 83.59, 83.95)) + 0.008 * max(0, t - 83.95))
+    ph.framed(c, W / 2, 720, 880, rot=lerp(2.5, 1.0, prog(t, 83.59, 83.95)), scale=lerp(0.95, 1, prog(t, 83.59, 83.95)))
     label_tag(c, "MIDWAY", 170, 300, prog(t, 84.20, 84.5), size=44)
     pa = prog(t, 87.32, 87.55, back_out)
-    burst(c, 470, 820, t, 87.34, "yellow", r0=150, r1=320)
     if t > 87.32:
         with Xf(c, 470, 820, -6, lerp(1.8, 1.0, clamp(pa))):
             chip(c, "AF", 0, 0, 1.0, size=130)
@@ -463,21 +443,13 @@ def s20_attack(c, t):
         ph = A("hiryu")
         z = lerp(1.0, 1.08, prog(t, 87.97, 90.43, lambda q: q))
         ph.cover(c, skia.Rect.MakeWH(W, H), 0.42, 0.42, z)
-        film(c, t)
         chip(c, "4 THÁNG 6 · 1942", W / 2, CHIP_Y, prog(t, 88.0, 88.35))
         label_tag(c, "TÀU SÂN BAY NHẬT", 60, 1100, prog(t, 89.55, 89.85), size=40, bg="red", fg="white")
         caption(c, "Ảnh: tàu Hiryu, chụp từ máy bay Mỹ, 4/6/1942", 1190)
     else:
         ph = A("burning")
-        z = lerp(1.16, 1.06, prog(t, 90.43, 91.4))
-        dx, dy = shake(t, 90.43, 0.4, 18)
-        c.save()
-        c.translate(dx, dy)
-        ph.cover(c, skia.Rect.MakeXYWH(-30, -30, W + 60, H + 60), 0.47, 0.42, z)
-        c.restore()
-        film(c, t)
-        if t < 90.53:
-            c.drawRect(skia.Rect.MakeWH(W, H), paint("white", 150 * (1 - (t - 90.43) / 0.1)))
+        z = lerp(1.12, 1.05, prog(t, 90.43, 91.4, lambda q: q))
+        ph.cover(c, skia.Rect.MakeWH(W, H), 0.47, 0.42, z)
         chip(c, "4 THÁNG 6 · 1942", W / 2, CHIP_Y, 1)
         label_tag(c, "MIDWAY BỊ ĐÁNH", 60, 1100, prog(t, 90.55, 90.85), size=40)
         caption(c, "Ảnh: kho dầu cháy trên Midway, 4/6/1942", 1190)
@@ -505,9 +477,8 @@ def s21_carriers(c, t):
 
 def s22_days(c, t):
     ph = A("burning")
-    ph.cover(c, skia.Rect.MakeWH(W, H), 0.5, 0.40, 1.0 + 0.012 * (t - 94.95))
-    film(c, t, 0.7)
-    c.drawRect(skia.Rect.MakeWH(W, H), paint("ink", 160))
+    ph.cover(c, skia.Rect.MakeWH(W, H), 0.5, 0.40, 1.0)
+    c.drawRect(skia.Rect.MakeWH(W, H), paint("ink", 165))
     days = list(range(20, 32)) + [1, 2, 3, 4]
     bw, gap = 104, 12
     x0 = (W - (8 * bw + 7 * gap)) / 2
@@ -533,8 +504,7 @@ def s22_days(c, t):
     label_tag(c, "20/5: phát tin xin nước", x0, 450, prog(t, 95.64, 95.95), size=32, bg="yellow")
     label_tag(c, "4/6: máy bay Nhật tới", x0 + 8 * bw + 7 * gap, 520 + 2 * (bw + 70) - 10, prog(t, 96.75, 97.05), size=32, anchor="right", bg="red", fg="white")
     if t > 98.0:
-        dx, dy = shake(t, 98.25, 0.3, 8)
-        with Xf(c, W / 2 + dx, 1010 + dy, -3, lerp(1.7, 1.0, prog(t, 98.0, 98.3, back_out))):
+        with Xf(c, W / 2, 1010, -3, lerp(1.7, 1.0, prog(t, 98.0, 98.3, back_out))):
             chip(c, "MỚI 15 NGÀY", 0, 0, 1, size=84)
 
 
@@ -563,7 +533,7 @@ TIMELINE = [
 def s04_rochefort(c, t):
     draw_paper(c)
     pe = prog(t, 12.45, 12.85)
-    A("rochefort").framed(c, W / 2, 760, 760, rot=lerp(-6, -2, pe), scale=lerp(0.93, 1, pe) + 0.005 * max(0, t - 12.85))
+    A("rochefort").framed(c, W / 2, 760, 760, rot=lerp(-6, -2, pe), scale=lerp(0.93, 1, pe))
     chip(c, "TRÂN CHÂU CẢNG", W / 2, CHIP_Y, prog(t, 12.95, 13.3))
     name_tag(c, 60, 1030, "Joseph Rochefort", "Sĩ quan hải quân · trưởng nhóm giải mã", prog(t, 15.40, 15.8), size=46, role_size=30)
 
@@ -571,86 +541,7 @@ def s04_rochefort(c, t):
 TIMELINE[2] = (12.45, 18.28, s04_rochefort)
 
 
-# kiểu chuyển cảnh tại mốc vào của cảnh (không có = cắt thẳng, giữ cho các cú nhấn)
-TRANS = {2.65: "shrink", 12.45: "push", 18.28: "push", 29.96: "push", 34.69: "fade", 37.69: "pushup",
-         40.66: "fade", 46.36: "push", 51.26: "fade", 53.56: "push", 55.28: "fade", 67.60: "push",
-         69.86: "fade", 83.59: "push", 91.37: "push", 94.95: "fade"}
-WIN = {"shrink": (0.12, 0.45), "push": (0.16, 0.26), "pushup": (0.16, 0.26), "fade": (0.2, 0.2)}
-_surfs = []
-
-
-
-
-def _render(fn, t, k):
-    s = _surfs[k]
-    cc = s.getCanvas()
-    cc.clear(skia.ColorBLACK)
-    fn(cc, t)
-    return s.makeImageSnapshot()
-
-
-def _edge_shadow(c, x, vertical=False):
-    if vertical:
-        sh = skia.GradientShader.MakeLinear([skia.Point(0, x - 60), skia.Point(0, x)], [skia.ColorSetARGB(0, 0, 0, 0), skia.ColorSetARGB(110, 10, 8, 5)])
-        c.drawRect(skia.Rect.MakeXYWH(0, x - 60, W, 60), skia.Paint(Shader=sh))
-    else:
-        sh = skia.GradientShader.MakeLinear([skia.Point(x - 60, 0), skia.Point(x, 0)], [skia.ColorSetARGB(0, 0, 0, 0), skia.ColorSetARGB(110, 10, 8, 5)])
-        c.drawRect(skia.Rect.MakeXYWH(x - 60, 0, 60, H), skia.Paint(Shader=sh))
-
-
-SHAKES = [(9.42, 7), (29.27, 13), (36.95, 7), (54.66, 13), (87.38, 13)]
-
-
 def draw_frame(c, t):
-    for t0, amp in SHAKES:
-        dx, dy = shake(t, t0, 0.32, amp)
-        if dx or dy:
-            c.translate(W / 2 + dx, H / 2 + dy)
-            c.scale(1.03, 1.03)
-            c.translate(-W / 2, -H / 2)
-            break
-    while len(_surfs) < 2:
-        _surfs.append(skia.Surface(W, H))
-    for i, (a, b, fn) in enumerate(TIMELINE):
-        kind = TRANS.get(a)
-        if kind and i > 0:
-            pre, post = WIN[kind]
-            if a - pre <= t < a + post:
-                p = ease_in_out((t - (a - pre)) / (pre + post))
-                old = _render(TIMELINE[i - 1][2], t, 0)
-                new = _render(fn, t, 1)
-                if kind == "fade":
-                    c.drawImage(old, 0, 0)
-                    pp = skia.Paint()
-                    pp.setAlphaf(p)
-                    c.drawImage(new, 0, 0, SAMP, pp)
-                elif kind == "push":
-                    c.drawImage(old, -0.3 * W * p, 0)
-                    c.drawRect(skia.Rect.MakeWH(W, H), paint("ink", 90 * p))
-                    x = W * (1 - p)
-                    _edge_shadow(c, x)
-                    c.drawImage(new, x, 0)
-                elif kind == "pushup":
-                    c.drawImage(old, 0, -0.3 * H * p)
-                    c.drawRect(skia.Rect.MakeWH(W, H), paint("ink", 90 * p))
-                    y = H * (1 - p)
-                    _edge_shadow(c, y, vertical=True)
-                    c.drawImage(new, 0, y)
-                elif kind == "shrink":
-                    # ảnh đảo thu nhỏ đúng vào chấm Midway trên bản đồ
-                    c.drawImage(new, 0, 0)
-                    cam = drift_cam(CAM_HM, t, 2.65, 0.007)
-                    tx, ty = mp(*PLACES["midway"], cam)
-                    sc = math.exp(lerp(0, math.log(0.035), p))
-                    cx, cy = lerp(W / 2, tx, p), lerp(H / 2, ty, p)
-                    with Xf(c, cx, cy, lerp(0, -4, p), sc, clamp((1 - p) * 4)):
-                        rr = skia.RRect.MakeRectXY(skia.Rect.MakeXYWH(-W / 2, -H / 2, W, H), 40 * p / max(sc, 0.05) * 0.02 + 1, 40)
-                        card(c, -W / 2 - 24, -H / 2 - 24, W + 48, H + 48, "white", r=6)
-                        c.save()
-                        c.clipRRect(rr, True)
-                        c.drawImage(old, -W / 2, -H / 2)
-                        c.restore()
-                return
     for a, b, fn in TIMELINE:
         if a <= t < b:
             fn(c, t)
