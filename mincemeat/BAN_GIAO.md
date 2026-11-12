@@ -66,3 +66,7 @@ Xuất lại: `python3 src/align.py && python3 src/render.py full && mv build/Mi
 | 87,6–91,5 | "tháng 7/1943 đổ bộ Sicily" | Bản đồ: mũi tên navy từ phía nam lên Sicily | Sóng |
 | 91,5–96,4 | "chôn ở Huelva… dưới tên William Martin" | Ảnh mộ (chụp sau này), khung vàng dòng "WILLIAM MARTIN" | Gió |
 | 96,4–104,6 | "1998… khắc thêm một dòng" | Cận dòng khắc 1998, bản dịch, tối dần | Gió |
+
+## Phiên bản đã chốt
+
+**Chủ kênh chốt v1 (12/11/2026)**, giữ nguyên các ảnh chưa xác minh ở ngoài video (đoạn 87,6–91,5 s dùng bản đồ, đoạn 13,7–16,1 s không có ảnh hai sĩ quan).
