@@ -65,3 +65,7 @@ Xuất lại: `python3 src/align.py && python3 src/render.py full && mv build/Mo
 | 91,1–95,7 | "giữ tranh kiểm tra… bị bắt tại khách sạn" | Ảnh Mona Lisa ở Uffizi 1913; Le Petit Parisien 13/12/1913 | Giấy |
 | 95,7–104,7 | "ra tòa… quê hương Leonardo… 7 tháng" | Chân dung Peruggia (tranh minh họa); "hơn 1 năm tù" gạch → "còn 7 tháng" | Búa tòa |
 | 104,7–111,3 | "4/1/1914… 28 tháng" | Ảnh tranh trở về Louvre 1914, tối dần | Xì xào, chuông |
+
+## Phiên bản đã chốt
+
+**Chủ kênh chốt v1 (13/11/2026)**, giữ ảnh Mona Lisa cỡ nhỏ như hiện tại.
