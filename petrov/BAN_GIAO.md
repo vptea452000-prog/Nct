@@ -69,3 +69,7 @@ Xuất lại: `python3 src/align.py && python3 src/render.py full && mv build/Pe
 | 88,6–94 | "19/5/2017… gần bốn tháng" | Chân dung, chip ngày | — |
 | 94–100,8 | "7/9… Karl Schumacher… Dmitry" | Điện thoại rung chuông, nhấc máy | Chuông điện thoại |
 | 100,8–104,1 | "đã mất từ tháng 5" | Đá tưởng niệm, tối dần | — |
+
+## Phiên bản đã chốt
+
+**Chủ kênh chốt v1 (14/11/2026)**, giữ ảnh Petrov những năm cuối đời ở đoạn giới thiệu.
