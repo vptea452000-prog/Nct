@@ -9,4 +9,4 @@ Kênh kể chuyện lịch sử có thật bằng tiếng Việt (trước đây
 | Vì sao một điệp viên được cả Hitler lẫn nước Anh trao huân chương? | [garbo/](garbo/) | **v1 đã chốt** (có hiệu ứng tiếng) — `BAN_GIAO.md` |
 | Vì sao tình báo Anh thả xác một người lạ xuống biển Tây Ban Nha? | [mincemeat/](mincemeat/) | **v1 đã chốt** (có hiệu ứng tiếng) — `BAN_GIAO.md` |
 | Vì sao Mona Lisa biến mất hơn một ngày mới có người nhận ra? | [monalisa/](monalisa/) | **v1 đã chốt** (có hiệu ứng tiếng) — `BAN_GIAO.md` |
-| Năm 1983, vì sao một sĩ quan Liên Xô không báo động khi máy tính báo Mỹ phóng tên lửa? | [petrov/](petrov/) | Đã đối chiếu kịch bản và lưu ý ảnh (`DOI_CHIEU.md`); chờ MP3 và ảnh |
+| Năm 1983, vì sao một sĩ quan Liên Xô không báo động khi máy tính báo Mỹ phóng tên lửa? | [petrov/](petrov/) | v1 đã dựng (có hiệu ứng tiếng); chờ chủ kênh duyệt — `BAN_GIAO.md` |
