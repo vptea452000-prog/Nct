@@ -1,0 +1,5 @@
+build/chunks.txt
+build/preview_*.png
+build/pv.png
+build/mix_voice_sfx.wav
+__pycache__/
