@@ -61,13 +61,13 @@ def render(name, top, bot):
     mascot(c, cx - 20, SAFE.bottom() - 30, 1.4, "smile", look=(-0.6, 0.1), t=1.0, arm="point")
     # chữ bên trái
     x0 = SAFE.left() + 20
-    text(c, "Nct official", x0, SAFE.top() + 175, "xbold", 168, "#F4C430", stroke=10, stroke_color="#1A120D")
-    text(c, "Lịch sử có thật · mỗi tập một câu hỏi", x0 + 6, SAFE.top() + 268, "bold", 58, "#FFFFFF", stroke=6, stroke_color="#1A120D")
+    text(c, "Lịch sử có thật", x0, SAFE.top() + 150, "xbold", 132, "#F4C430", stroke=10, stroke_color="#1A120D")
+    text(c, "Mỗi tập một câu hỏi", x0 + 4, SAFE.top() + 255, "bold", 76, "#FFFFFF", stroke=7, stroke_color="#1A120D")
     tag = "Đăng ký"
     tw_ = tw(tag, "xbold", 44) + 60
-    pill = rrect_path(x0 + 6, SAFE.top() + 318, tw_, 74, 37)
+    pill = rrect_path(x0 + 6, SAFE.top() + 300, tw_ + 20, 88, 44)
     fill_out(c, pill, "#C0392B", ow=6)
-    text(c, tag, x0 + 36, SAFE.top() + 370, "xbold", 44, "#FFFFFF")
+    text(c, tag, x0 + 46, SAFE.top() + 360, "xbold", 50, "#FFFFFF")
     img = surf.makeImageSnapshot()
     img.save(str(HERE / f"banner_{name}.png"))
     return img
