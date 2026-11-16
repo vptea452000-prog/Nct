@@ -20,3 +20,15 @@ Quy trình đầy đủ theo tài liệu "Quy trình sản xuất video" của c
 4. Chú thích trên hình chỉ ghi điều nguồn xác nhận. Không rõ ngày thì không ghi ngày. Ảnh chụp sau sự kiện ghi "chụp sau này". Hiện vật cùng loại (huân chương, vũ khí) ghi rõ là hiện vật cùng loại.
 5. Một người không có ảnh xác minh được thì dùng hình bóng trung tính kèm tên, **không mượn ảnh người khác**.
 6. Bàn giao luôn có bảng tư liệu: file → nhận diện → nguồn → mức chắc chắn; ảnh bị loại ghi rõ lý do.
+
+## Phong cách hình từ tập Onoda (chủ kênh chốt 16/11/2026)
+
+Thay phong cách giấy cắt (Midway v2) bằng **hoạt hình 2D**, theo bản thử `onoda/proto/` và bộ vẽ `onoda/proto/src/toon.py`:
+
+- **Linh vật kênh**: nhân vật tròn màu vàng, kính tròn, khăn đỏ (xem `brand/`). Đóng vai người dẫn chuyện phản ứng với câu chuyện (tò mò, hoảng hốt, chỉ tay…). Hài nhẹ, dồn vào linh vật; đề tài có người chết thì tiết chế.
+- **Nhân vật lịch sử vẽ hoạt hình đơn giản**, nét viền dày, tô phẳng có đổ bóng; không vẽ mô phỏng khuôn mặt người thật theo ảnh. Nhãn "HOẠT HÌNH MINH HỌA" khi cần.
+- **Bối cảnh có chiều sâu**: tiền cảnh mờ, máy quay đẩy vào, lia, cận mặt khi phản ứng; ánh sáng ấm, góc tối.
+- **Chữ lớn viền đậm** trên dải tối (dòng trắng lớn + dòng vàng nhỏ), bong bóng thoại, thẻ tên.
+- **Ảnh tư liệu thật** lồng vào cảnh như tranh, ảnh, tài liệu trong tay nhân vật — vẫn theo đúng quy tắc dùng ảnh ở trên.
+- Giữ nguyên: Shorts dọc 9:16, **giọng chủ kênh tự thu**, phụ đề tiếng Việt, hiệu ứng tiếng (không nhạc nền), đối chiếu sự kiện trước khi thu, không hiện tên kênh/logo trong video.
+- Ảnh đại diện và ảnh bìa kênh: `brand/avatar_*.png`, `brand/banner_*.png`.
