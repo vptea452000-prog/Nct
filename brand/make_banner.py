@@ -63,7 +63,7 @@ def render(name, top, bot):
     x0 = SAFE.left() + 20
     text(c, "Nct official", x0, SAFE.top() + 175, "xbold", 168, "#F4C430", stroke=10, stroke_color="#1A120D")
     text(c, "Lịch sử có thật · mỗi tập một câu hỏi", x0 + 6, SAFE.top() + 268, "bold", 58, "#FFFFFF", stroke=6, stroke_color="#1A120D")
-    tag = "Kể bằng tư liệu thật"
+    tag = "Đăng ký"
     tw_ = tw(tag, "xbold", 44) + 60
     pill = rrect_path(x0 + 6, SAFE.top() + 318, tw_, 74, 37)
     fill_out(c, pill, "#C0392B", ow=6)
