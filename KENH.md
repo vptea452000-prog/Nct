@@ -68,3 +68,4 @@ Chủ kênh gửi **kịch bản + file MP3 giọng đọc**. Claude làm tất 
 
 ### Ghi chú sau Tập 1: Lửa (17/11/2026)
 Chủ kênh: "khá hay, khá vui" → định dạng phim hài không lời được giữ. Yêu cầu **tập sau vui hơn nữa**. Phía Claude sẽ tăng: biểu cảm phóng đại (mắt lồi, nhảy dựng, khói bốc đầu), hài hình thể (ngã, va đầu, cháy mông), nhịp cắt nhanh hơn, cận mặt khi phản ứng, rung khung ở cú đánh hài, tiếng hiệu ứng kiểu hoạt hình (boing, trượt, té). Gợi ý cho người viết kịch bản: phần "Để phim vui hơn" trong `MAU_KICH_BAN_HAI.md`.
+- **Âm thanh phim hài không lời (sửa sau Tập 1):** giọng ú ớ phải liền mạch, không chèn tiếng phụ âm/tiếng gõ; không đặt chuỗi tiếng lách cách, tích tắc, tí tách dày dưới lời thoại.

@@ -29,3 +29,11 @@ Xuất lại: `python3 src/render.py full && python3 src/sfx_events.py`
 
 - Claude **không nghe được âm thanh**: giọng ú ớ và hiệu ứng chỉ đo bằng số. Nghe xem giọng Bộp/Gầm đã đủ vui chưa (cao/thấp, nhanh/chậm), góp ý theo nhịp hoặc mốc giây.
 - Độ dài 1:32 (Shorts cho phép tới 3 phút). Muốn gọn hơn có thể bớt vài nhịp ở cảnh 1 và 3 trong `src/beats.py`.
+
+## Sửa (17/11/2026) — bỏ tiếng lách cách khi nhân vật nói
+
+Chủ kênh phản ánh: khi nhân vật nói có nhiều tiếng lách cách, khó chịu. Nguyên nhân và cách sửa:
+- **Trong giọng ú ớ**: mỗi âm tiết có chèn tiếng phụ âm (tiếng xì ngắn) và bật/tắt âm tiết gắt → chuỗi lách cách. Giọng mới: nguồn hài âm sạch, cao độ trượt mượt, nguyên âm chuyển dần, âm tiết vào–ra mềm, **không còn tiếng phụ âm**. Đo lại: 0 đột biến cao tần trong giọng (trước đây mỗi âm tiết một đột biến).
+- **Tiếng lửa nền**: trước nhiều tiếng tí tách → nay chủ yếu tiếng ù ấm, tí tách rất thưa và nhẹ.
+- **Bỏ** tiếng ma sát dạng gõ khi xoay que (thay bằng tiếng cọ êm), tiếng răng va lập cập, các tiếng tích tắc lẻ.
+- Áp dụng cho các tập sau: không dùng chuỗi tiếng gõ/tích tắc dưới lời thoại.

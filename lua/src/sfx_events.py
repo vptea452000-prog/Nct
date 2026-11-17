@@ -31,60 +31,58 @@ def formant(x, f, bw):
 
 
 def babble(spk, dur, emo, kind, seed=0):
+    """Giọng ú ớ liền mạch: nguồn hài âm (không răng cưa), cao độ trượt mượt, nguyên âm chuyển dần, không chèn tiếng phụ âm."""
     r = np.random.default_rng(seed)
     v = VOICE[spk]
     pf, rf, gdb, shape = EMO.get(emo, EMO["calm"])
     if kind == "shout":
         pf *= 1.1; gdb += 2
     n = int(dur * SR)
-    out = np.zeros(n)
+    tt = np.arange(n) / SR
     rate = v["rate"] * rf
-    t = 0.0
-    while t < dur - 0.08:
-        syl = r.uniform(0.75, 1.25) / rate
-        L = int(min(syl, dur - t) * SR)
-        if L < 400:
-            break
-        u = t / dur
-        f0 = v["f0"] * pf
-        if shape == "up":
-            f0 *= 1 + 0.25 * u ** 2
-        elif shape == "down":
-            f0 *= 1 - 0.18 * u
-        elif shape == "punch":
-            f0 *= 1.1 - 0.15 * u
-        elif shape == "wobble":
-            f0 *= 1 + 0.12 * np.sin(u * 20)
-        f0 *= r.uniform(0.92, 1.1)
-        tt = np.arange(L) / SR
-        f0_t = f0 * (1 + 0.08 * np.sin(2 * np.pi * 5 * tt))
-        if shape == "tremble":
-            f0_t *= 1 + 0.06 * np.sign(np.sin(2 * np.pi * 14 * tt))
-        ph = np.cumsum(f0_t) / SR
-        src = (ph % 1.0) * 2 - 1          # răng cưa ~ xung thanh môn
-        src = src - np.convolve(src, np.ones(8) / 8, mode="same") * 0.5
+    # ranh giới âm tiết
+    bounds = [0.0]
+    while bounds[-1] < dur:
+        bounds.append(bounds[-1] + r.uniform(0.8, 1.25) / rate)
+    bounds = np.array(bounds)
+    # đường cao độ: mỗi âm tiết một đích, nội suy mượt
+    u = tt / dur
+    base = v["f0"] * pf
+    contour = {"up": 1 + 0.25 * u ** 2, "down": 1 - 0.18 * u, "punch": 1.1 - 0.15 * u, "wobble": 1 + 0.1 * np.sin(u * 18)}.get(shape, np.ones(n))
+    targets = base * r.uniform(0.9, 1.12, len(bounds))
+    f0 = np.interp(tt, bounds, targets) * contour
+    f0 = np.convolve(f0, np.ones(int(0.04 * SR)) / int(0.04 * SR), mode="same")
+    f0 *= 1 + 0.025 * np.sin(2 * np.pi * 5.5 * tt)
+    if shape == "tremble":
+        f0 *= 1 + 0.05 * np.sin(2 * np.pi * 9 * tt)
+    ph = 2 * np.pi * np.cumsum(f0) / SR
+    if kind == "whisper":
+        src = bp(r.normal(0, 1, n), 300, 4000) * 0.7
+    else:
+        src = sum(np.sin(k * ph) / k ** 1.2 for k in range(1, 14) if k * base < 7000)
         if v["rough"] > 0:
-            src *= 1 + v["rough"] * np.sin(2 * np.pi * 31 * tt)
-            src += v["rough"] * 0.3 * r.normal(0, 1, L)
-        if kind == "whisper":
-            src = r.normal(0, 1, L) * 0.6
-        vk = r.choice(list(VOWELS))
-        F = VOWELS[vk]
-        y = sum(formant(src, F[i] * v["bright"], [90, 120, 180][i] * 1.4) * [1.0, 0.6, 0.3][i] for i in range(3))
-        env = np.minimum(1, np.minimum(np.arange(L) / (0.012 * SR), (L - np.arange(L)) / (0.03 * SR)))
-        env *= 0.7 + 0.3 * np.sin(np.pi * np.arange(L) / L)
-        y *= env
-        # phụ âm đầu
-        cl = int(0.02 * SR)
-        if r.random() < 0.7 and L > cl * 2:
-            cons = bp(r.normal(0, 1, cl), 1500, 6000) * np.exp(-np.arange(cl) / (0.006 * SR)) * 0.6
-            y[:cl] += cons
-        a = int(t * SR)
-        out[a:a + L] += y[: n - a]
-        t += syl + (r.uniform(0.03, 0.12) if r.random() < 0.25 else 0)
-    out = lp(out, 6000, 4)  # bớt hài bậc cao để AAC không vượt đỉnh
-    out = norm(out) * (10 ** ((gdb + v["gain"]) / 20))
-    return out
+            src *= 1 + v["rough"] * 0.5 * np.sin(2 * np.pi * 30 * tt)
+    # nguyên âm chuyển dần giữa các âm tiết
+    keys = list(VOWELS)
+    seq = [VOWELS[r.choice(keys)] for _ in bounds]
+    y = np.zeros(n)
+    for i in range(len(bounds) - 1):
+        a0, a1 = int(bounds[i] * SR), min(n, int(bounds[i + 1] * SR))
+        if a1 - a0 < 200:
+            continue
+        lo, hi = max(0, a0 - int(0.03 * SR)), min(n, a1 + int(0.03 * SR))
+        seg = src[lo:hi]
+        F = seq[i]
+        out_seg = sum(formant(seg, F[j] * v["bright"], [110, 150, 220][j] * 1.3) * [1.0, 0.55, 0.25][j] for j in range(3))
+        L = hi - lo
+        w = np.sin(np.pi * np.arange(L) / L) ** 1.5      # vào ra mềm, chồng lấn nhẹ giữa âm tiết
+        y[lo:hi] += out_seg * w
+    # nhịp nói: hạ âm lượng nhẹ giữa các âm tiết thay vì ngắt cụt
+    gate = 0.55 + 0.45 * np.interp(tt, (bounds[:-1] + bounds[1:]) / 2, np.ones(len(bounds) - 1))
+    y *= gate
+    fade = np.minimum(1, np.minimum(np.arange(n) / (0.05 * SR), (n - np.arange(n)) / (0.08 * SR)))
+    y = lp(y * fade, 5500, 4)
+    return norm(y) * (10 ** ((gdb + v["gain"]) / 20))
 
 
 # ----------------------------------------------------------------- lời ú ớ theo nhịp
@@ -125,9 +123,10 @@ def rain(d):
     return norm(x * np.minimum(1, np.minimum(np.arange(n) / (0.5 * SR), (n - np.arange(n)) / (0.6 * SR))))
 
 
-def crackle(d, dens=0.003):
+def crackle(d, dens=0.0004):
+    """Lửa: chủ yếu tiếng ù ấm, tí tách rất thưa và nhẹ."""
     n = int(d * SR)
-    x = bp((rng.random(n) < dens) * rng.normal(0, 3, n), 1500, 8000) + lp(noise(d), 350) * 0.5
+    x = bp((rng.random(n) < dens) * rng.normal(0, 1, n), 800, 3000) * 0.25 + lp(noise(d), 350) * 0.8
     return norm(x * np.minimum(1, np.minimum(np.arange(n) / (0.3 * SR), (n - np.arange(n)) / (0.4 * SR))))
 
 
@@ -191,14 +190,14 @@ def bt(name):
 # CẢNH 1
 a, b = bt("open"); ev(0, wind(T["sigh"][1] + T["sigh"][0], 1), -16)
 ev(a + 0.3, S.s_impact(), -8); ev(a + 0.6, S.s_impact(), -6)
-a, b = bt("drill"); ev(a, S.s_rattle(b - a), -12)
+a, b = bt("drill"); ev(a, norm(bp(noise(b - a), 300, 1500) * (0.6 + 0.4 * np.sin(2 * np.pi * 6 * t_(b - a)))), -18)
 for k in range(int((b - a) / 0.3)):
     ev(a + k * 0.3, S.s_whoosh(0.25, 800, 2500, 0.5), -20)
 a, b = bt("spark"); ev(a + 0.7, S.s_hiss(0.6), -14); ev(a + 1.7, whoosh_fire(), -6)
 ev(a + 1.8, crackle(T["stomp"][0] + 1.2 - (a + 1.8)), -16)
 a, b = bt("jump"); ev(a, S.s_impact(), -5); ev(a, boing(400, 900, 0.25), -10, -0.4)
 a, b = bt("name"); ev(a + 0.9, S.s_ding(), -14)
-a, b = bt("red"); ev(a + 1.4, crackle(1.0, 0.01), -10)
+a, b = bt("red"); ev(a + 1.4, crackle(1.0, 0.003), -14)
 a, b = bt("useless"); ev(a + 0.1, S.s_impact(), -12)
 a, b = bt("stomp")
 for k, ts in enumerate([a + 0.2, a + 0.6, a + 1.0, a + 1.4]):
@@ -211,11 +210,10 @@ for k in range(5):
 a, b = bt("sigh"); ev(a + 0.5, S.s_whoosh(0.8, 600, 200, 0.3), -16)
 # CẢNH 2
 a = T["cold"][0]; ev(a, rain(T["wolves"][0] - a), -16)
-ev(a + 0.3, chatter(2.0), -12, -0.3)
 a, b = bt("glow"); ev(a, crackle(T["wolves"][0] - a, 0.002), -18, 0.3)
 ev(a + 1.0, S.s_whoosh(0.3, 3000, 4000, 0.5), -16); ev(a + 1.3, S.s_whoosh(0.3, 3000, 4000, 0.5), -16)
 a, b = bt("nope"); ev(a, boing(300, 200, 0.2), -14)
-a, b = bt("growl"); ev(a + 0.2, tummy(1.3), -4); ev(a + 1.6, S.s_tick(0.6), -20)
+a, b = bt("growl"); ev(a + 0.2, tummy(1.3), -4)
 # CẢNH 3
 a = T["wolves"][0]; ev(a, crackle(T["stone"][0] - a, 0.002), -18)
 ev(a + 0.2, growl(2.4), -8, 0.5)
@@ -224,9 +222,7 @@ a, b = bt("hot"); ev(a + 0.2, boing(500, 200, 0.3), -12); ev(a + 0.5, whoosh_fir
 for k in range(4):
     ev(a + 0.8 + k * 0.35, S.s_whoosh(0.3, 400, 2500), -12)
 a, b = bt("flee"); ev(a + 0.3, yelp(), -8, 0.4); ev(a + 0.55, yelp(), -10, 0.5)
-for k in range(8):
-    ev(a + 0.4 + k * 0.12, S.s_tick(0.6), -16, 0.6)
-a, b = bt("afraid"); ev(a, S.s_tick(0.8), -24)
+ev(a + 0.4, norm(lp(noise(1.0), 900) * np.linspace(1, 0, int(1.0 * SR))), -18, 0.6)
 a, b = bt("invent"); ev(a, S.s_impact(), -8); ev(a + 0.1, S.s_ding(), -12)
 a, b = bt("allmine"); ev(a + 0.1, S.s_impact(), -12)
 a, b = bt("hog"); ev(a + 0.3, S.s_whoosh(0.4, 200, 1500), -14); ev(a + 0.5, stomp(), -12)
@@ -246,4 +242,4 @@ if __name__ == "__main__":
     if not va.exists():
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-t", str(DUR), "-c:a", "libmp3lame", str(va)], check=True)
     S.EVENTS[:] = [(t, x, g + 4, p) for t, x, g, p in S.EVENTS]
-    S.export(B / "Lua_v1_nosfx.mp4", B / "Lua_v1.mp4", pre_gain_db=float(sys.argv[1]) if len(sys.argv) > 1 else 4.6, limit=0.70)
+    S.export(B / "Lua_v1_nosfx.mp4", B / "Lua_v1.mp4", pre_gain_db=float(sys.argv[1]) if len(sys.argv) > 1 else 1.8, limit=0.70)
