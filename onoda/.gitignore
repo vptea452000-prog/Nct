@@ -4,6 +4,6 @@ build/preview_*.png
 build/pv*.png
 build/video_only.mp4
 build/chunks.txt
-build/Onoda_v1_nosfx.mp4
+build/Onoda_v2_nosfx.mp4
 build/mix_voice_sfx.wav
 __pycache__/

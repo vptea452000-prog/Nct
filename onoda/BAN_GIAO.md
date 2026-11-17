@@ -1,19 +1,19 @@
-# Onoda v1 — ghi chú bàn giao
+# Onoda — ghi chú bàn giao
 
 **Tập:** Vì sao một người lính Nhật vẫn chiến đấu 29 năm sau khi chiến tranh kết thúc?
-**Phiên bản:** v1 · Shorts 1080 × 1920, 30 fps · dài 2:00,8 (theo MP3) · **phong cách hoạt hình 2D mới, có linh vật**, có hiệu ứng tiếng
+**Phiên bản:** v2 (hoạt hình thuần) · v1 giữ trong lịch sử git · Shorts 1080 × 1920, 30 fps · dài 2:00,8 (theo MP3) · **phong cách hoạt hình 2D mới, có linh vật**, có hiệu ứng tiếng
 
 ## Bộ file
 
 | File | Nội dung |
 |---|---|
-| `build/Onoda_v1.mp4` | Bản đầy đủ: H.264 CRF 19, AAC 192 kbps, phụ đề in cứng, giọng + 176 hiệu ứng; −14,2 LUFS, đỉnh −1,2 dBTP |
-| `build/Onoda_v1.srt` | Phụ đề riêng |
+| `build/Onoda_v2.mp4` | Bản đầy đủ: H.264 CRF 19, AAC 192 kbps, phụ đề in cứng, giọng + 176 hiệu ứng; −14,2 LUFS, đỉnh −1,2 dBTP |
+| `build/Onoda_v2.srt` | Phụ đề riêng |
 | `build/sfx_stem.wav` | Riêng lớp hiệu ứng |
 | `build/contact_sheet.png` | Dải khung hình |
 | `src/` | `scenes.py` (bảng dựng), `toon.py` (nhân vật hoạt hình), `sets.py` (bối cảnh), `sfx_events.py`, `subs.py`, `align.py`, `render.py` |
 
-Xuất lại: `python3 src/align.py && python3 src/render.py full && mv build/Onoda_v1.mp4 build/Onoda_v1_nosfx.mp4 && python3 src/sfx_events.py`
+Xuất lại: `python3 src/align.py && python3 src/render.py full && mv build/Onoda_v2.mp4 build/Onoda_v2_nosfx.mp4 && python3 src/sfx_events.py`
 
 ## Việc cần chủ kênh xem trước khi đăng
 
@@ -55,3 +55,11 @@ Nhân vật hoạt hình (lính, Suzuki, Taniguchi, Tổng thống Marcos) đề
 | 73,3–87,7 | "Suzuki… bốn ngày… chụp ảnh chung… lệnh cấp trên" | Chàng trai đeo ba lô; đếm ngày; gặp nhau; ảnh thật Suzuki – Onoda kèm chớp đèn; bong bóng "CHỈ ĐI KHI CÓ LỆNH CẤP TRÊN" | Bước chân, màn trập |
 | 87,7–104,1 | "mang ảnh về… Taniguchi… 9/3/1974… đọc lệnh" | Máy bay; hiệu sách, thẻ tên Taniguchi; hai người vào rừng; Onoda chào; bong bóng "MIỄN TOÀN BỘ NHIỆM VỤ CHIẾN ĐẤU" | Bước chân, giấy |
 | 104,1–120,8 | "trình diện… súng, 500 viên đạn… trao kiếm… ân xá" | Ảnh Onoda rời rừng; súng, bộ đếm 500, lựu đạn; trao kiếm (hoạt hình); dấu "ÂN XÁ", tối dần | Kim loại, dấu |
+
+## v2 — hoạt hình thuần (chủ kênh yêu cầu 17/11/2026)
+
+- **Bỏ toàn bộ ảnh thật** → không còn vấn đề quyền sử dụng ảnh. Ảnh Onoda, Kozuka, ảnh Suzuki chụp chung… được vẽ lại bằng nhân vật hoạt hình (không mô phỏng khuôn mặt người thật).
+- **Nhân vật có chuyển động** (`src/toon2.py`): đi bộ có nhịp chân tay, nhép miệng khi nói, chớp mắt, thở; tư thế ngắm súng, khoanh tay, chào, đọc lệnh, giơ tay đầu hàng; Onoda **già đi theo năm tháng** (nếp nhăn, râu, áo vá).
+- **34 cảnh, cắt nhanh ~3,5 s/cảnh**, chuyển cảnh **lia máy có nhoè** ở các mốc chuyển chương, mờ dần ở đoạn nặng.
+- **Kể bằng hình ảnh**: máy quay lao từ trời xuống đảo; linh vật đu dây leo; mắt phát sáng trong bụi rậm; màn hình chia đôi "Nhật đầu hàng / trong rừng không ai biết"; truyền đơn rơi vào tay; người lính đập thư bay ra; bóng đen đốt làng; **30 ngọn nến** thay cho con số; bếp lửa với 4 người lính lần lượt biến mất kèm **đồng hồ năm** 1949 → 1972; đèn pin rọi rừng, đôi mắt sáng lên ("thì Onoda?"); ngày đêm luân phiên khi Suzuki đi tìm; tấm ảnh hiện dần; chữ bật từng ký tự.
+- Đoạn có người chết vẫn không đùa; linh vật vắng mặt.
