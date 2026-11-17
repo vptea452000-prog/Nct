@@ -65,3 +65,6 @@ Chủ kênh gửi **kịch bản + file MP3 giọng đọc**. Claude làm tất 
 - Hài, diễn xuất phóng đại; mỗi phim xoay quanh **một fact có thật**, kết bằng **thẻ fact** 1–2 câu.
 - Kịch bản do một AI khác viết theo `MAU_KICH_BAN_HAI.md`; chủ kênh gửi kịch bản → Claude đối chiếu fact, dựng hình, tổng hợp giọng ú ớ, hiệu ứng tiếng, xuất video.
 - Shorts 9:16, 30–60 giây; không phụ đề lời đọc (chỉ bóng thoại).
+
+### Ghi chú sau Tập 1: Lửa (17/11/2026)
+Chủ kênh: "khá hay, khá vui" → định dạng phim hài không lời được giữ. Yêu cầu **tập sau vui hơn nữa**. Phía Claude sẽ tăng: biểu cảm phóng đại (mắt lồi, nhảy dựng, khói bốc đầu), hài hình thể (ngã, va đầu, cháy mông), nhịp cắt nhanh hơn, cận mặt khi phản ứng, rung khung ở cú đánh hài, tiếng hiệu ứng kiểu hoạt hình (boing, trượt, té). Gợi ý cho người viết kịch bản: phần "Để phim vui hơn" trong `MAU_KICH_BAN_HAI.md`.

@@ -22,3 +22,15 @@ Loại bóng: **thường** (nói), **hét** (răng cưa), **nghĩ** (đám mây
 Cuối kịch bản ghi:
 - **Danh sách nhân vật**: tên, loài/nhóm (Neanderthal, người hiện đại…), tuổi, đặc điểm dễ nhận (tóc, áo, đồ vật), tính cách.
 - **Thẻ fact cuối phim** + nguồn tham khảo.
+
+---
+
+## Để phim vui hơn (dán thêm cho AI viết kịch bản)
+
+- **Mở bằng một cú hài trong 3 giây đầu** (ngã, bị lửa/thú dọa, hiểu lầm to) — người xem Shorts quyết định ở lại hay lướt rất nhanh.
+- **Trò đùa lặp lại 3 lần**, lần thứ ba lật ngược (ví dụ "Đồ vô dụng!" — lần cuối chính Gầm mới là người vô dụng).
+- **Hài hình thể**: trượt chân, va đầu, bị cháy mông, bị con vật đuổi; phản ứng phóng đại (mắt lồi, nhảy dựng, tóc dựng).
+- **Đối lập tính cách**: một người thông minh nhưng hiền, một người khỏe nhưng hậu đậu và hay giành công.
+- **Nhịp nhanh**: mỗi cảnh 1,5–3 giây; tránh hai câu thoại dài liền nhau; thỉnh thoảng một nhịp im lặng ("…") trước cú đánh hài.
+- **Đạo cụ/thú vật làm nhân vật phụ** (con vật biểu cảm, hòn đá "biết nói" bằng ký hiệu).
+- **Kết bằng cú lật** và gợi tập sau.
