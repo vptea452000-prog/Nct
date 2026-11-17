@@ -43,3 +43,10 @@ Mốc phong cách cho các tập sau là **Onoda v2** (`onoda/src/scenes.py`, `o
 - **Kể bằng hình ảnh** thay vì minh họa chữ: ẩn dụ thị giác (nến thay số người chết, đồng hồ năm, màn hình chia đôi, ngày–đêm luân phiên), chữ lớn bật từng ký tự.
 - Linh vật xuất hiện ở đoạn nhẹ; vắng mặt ở đoạn có người chết.
 - Giữ: Shorts 9:16, giọng chủ kênh, phụ đề, hiệu ứng tiếng (không nhạc), đối chiếu sự kiện trước khi thu.
+
+## Quy trình rút gọn (chủ kênh chốt 17/11/2026)
+
+Chủ kênh gửi **kịch bản + file MP3 giọng đọc**. Claude làm tất cả phần còn lại: đối chiếu sự kiện, căn mốc, phụ đề, thiết kế cảnh hoạt hình, hiệu ứng tiếng, xuất video và bàn giao. Không cần gửi ảnh.
+
+- Nếu chỉ gửi MP3 mà không kèm kịch bản: Claude dùng kịch bản đã đối chiếu trước đó cho tập ấy; Claude chưa nghe được nội dung MP3 nên **cần bản chữ của lời đọc** để làm phụ đề và căn mốc.
+- Chỗ sai sự kiện phát hiện khi đối chiếu: Claude vẫn dựng, chữ trên hình viết trung tính, và báo câu + mốc giây cần thu lại.
