@@ -50,3 +50,10 @@ Chủ kênh gửi **kịch bản + file MP3 giọng đọc**. Claude làm tất 
 
 - Nếu chỉ gửi MP3 mà không kèm kịch bản: Claude dùng kịch bản đã đối chiếu trước đó cho tập ấy; Claude chưa nghe được nội dung MP3 nên **cần bản chữ của lời đọc** để làm phụ đề và căn mốc.
 - Chỗ sai sự kiện phát hiện khi đối chiếu: Claude vẫn dựng, chữ trên hình viết trung tính, và báo câu + mốc giây cần thu lại.
+
+## Chuỗi "fact nguyên thủy" (chủ kênh chốt 17/11/2026)
+
+- Video Shorts riêng lẻ, mỗi video một fact về thời tiền sử; chủ kênh viết kịch bản, gửi MP3 + bản chữ.
+- Phong cách hoạt hình thuần như Onoda v2; **linh vật kênh vẫn là người dẫn chuyện**.
+- Đối chiếu: tách rõ điều đã chắc (có bằng chứng, có niên đại) với giả thuyết; đề xuất cách nói "các nhà khoa học cho rằng…" khi cần. Niên đại ghi đúng đơn vị (năm trước Công nguyên / cách đây … năm).
+- Hình vẽ tránh khuôn mẫu sai: người tiền sử cầm gậy gầm gừ, sống cùng khủng long, mặc da thú kiểu hoạt hình cũ khi không có căn cứ.
