@@ -1,0 +1,2 @@
+Tập 1: Lửa — kịch bản gốc (do AI khác viết; Claude dựng theo, bóng thoại tách ngắn trong src/beats.py)
+Xem nội dung đầy đủ trong tin nhắn của chủ kênh ngày 17/11/2026: 4 cảnh — trước cửa hang chiều tối; đêm mưa lạnh; nửa đêm có sói; sáng hôm sau.

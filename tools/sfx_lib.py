@@ -348,7 +348,7 @@ def write_wav(path, x):
         w.writeframes(y[: int(DUR * SR)].tobytes())
 
 
-def export(video_in, video_out, pre_gain_db=0.0):
+def export(video_in, video_out, pre_gain_db=0.0, limit=0.84):
     """Trộn giọng + EVENTS, giới hạn đỉnh −1 dB, ghép vào video; lưu thêm lớp hiệu ứng riêng."""
     from scipy.io import wavfile
     v, sfx, out = mix()
@@ -357,7 +357,7 @@ def export(video_in, video_out, pre_gain_db=0.0):
     write_wav(B / "sfx_stem.wav", sfx)
     wavfile.write(B / "mix_float.wav", SR, out[: int(DUR * SR)].astype(np.float32))
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(B / "mix_float.wav"),
-                    "-af", "alimiter=limit=0.84:attack=3:release=60:level=disabled", "-c:a", "pcm_s16le",
+                    "-af", f"alimiter=limit={limit}:attack=3:release=60:level=disabled", "-c:a", "pcm_s16le",
                     str(B / "mix_voice_sfx.wav")], check=True)
     (B / "mix_float.wav").unlink()
     subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(video_in), "-i", str(B / "mix_voice_sfx.wav"),
