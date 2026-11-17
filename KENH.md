@@ -57,3 +57,11 @@ Chủ kênh gửi **kịch bản + file MP3 giọng đọc**. Claude làm tất 
 - Phong cách hoạt hình thuần như Onoda v2; **linh vật kênh vẫn là người dẫn chuyện**.
 - Đối chiếu: tách rõ điều đã chắc (có bằng chứng, có niên đại) với giả thuyết; đề xuất cách nói "các nhà khoa học cho rằng…" khi cần. Niên đại ghi đúng đơn vị (năm trước Công nguyên / cách đây … năm).
 - Hình vẽ tránh khuôn mẫu sai: người tiền sử cầm gậy gầm gừ, sống cùng khủng long, mặc da thú kiểu hoạt hình cũ khi không có căn cứ.
+
+## Định dạng mới: phim hoạt hình hài không lời (chủ kênh chốt 17/11/2026)
+
+Áp dụng cho chuỗi fact nguyên thủy:
+- **Không còn giọng đọc của chủ kênh, không linh vật.** Nhân vật nói ú ớ (giọng tự tổng hợp, mỗi nhân vật một cao độ/nhịp riêng); người xem hiểu qua **bóng thoại truyện tranh** (thường / hét / nghĩ / thì thầm) và chữ tượng thanh.
+- Hài, diễn xuất phóng đại; mỗi phim xoay quanh **một fact có thật**, kết bằng **thẻ fact** 1–2 câu.
+- Kịch bản do một AI khác viết theo `MAU_KICH_BAN_HAI.md`; chủ kênh gửi kịch bản → Claude đối chiếu fact, dựng hình, tổng hợp giọng ú ớ, hiệu ứng tiếng, xuất video.
+- Shorts 9:16, 30–60 giây; không phụ đề lời đọc (chỉ bóng thoại).
