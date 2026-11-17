@@ -32,3 +32,14 @@ Thay phong cách giấy cắt (Midway v2) bằng **hoạt hình 2D**, theo bản
 - **Ảnh tư liệu thật** lồng vào cảnh như tranh, ảnh, tài liệu trong tay nhân vật — vẫn theo đúng quy tắc dùng ảnh ở trên.
 - Giữ nguyên: Shorts dọc 9:16, **giọng chủ kênh tự thu**, phụ đề tiếng Việt, hiệu ứng tiếng (không nhạc nền), đối chiếu sự kiện trước khi thu, không hiện tên kênh/logo trong video.
 - Ảnh đại diện và ảnh bìa kênh: `brand/avatar_*.png`, `brand/banner_*.png`.
+
+## Cập nhật: hoạt hình thuần (chủ kênh chốt 17/11/2026, từ Onoda v2)
+
+Mốc phong cách cho các tập sau là **Onoda v2** (`onoda/src/scenes.py`, `onoda/src/toon2.py`):
+
+- **Hoạt hình thuần, không dùng ảnh thật** → không vướng quyền sử dụng ảnh. Ảnh chủ kênh gửi dùng để **tham khảo** (trang phục, bối cảnh, sự kiện) khi vẽ, không đưa trực tiếp vào video. Nhân vật người thật vẽ đơn giản, không mô phỏng khuôn mặt.
+- **Nhân vật cử động**: đi, nói (nhép miệng), chớp mắt, thở, nhiều tư thế; nhân vật già đi theo thời gian khi câu chuyện kéo dài nhiều năm.
+- **Cắt nhanh ~3–4 s/cảnh**, chuyển chương bằng lia máy có nhoè; đoạn nặng dùng mờ dần.
+- **Kể bằng hình ảnh** thay vì minh họa chữ: ẩn dụ thị giác (nến thay số người chết, đồng hồ năm, màn hình chia đôi, ngày–đêm luân phiên), chữ lớn bật từng ký tự.
+- Linh vật xuất hiện ở đoạn nhẹ; vắng mặt ở đoạn có người chết.
+- Giữ: Shorts 9:16, giọng chủ kênh, phụ đề, hiệu ứng tiếng (không nhạc), đối chiếu sự kiện trước khi thu.

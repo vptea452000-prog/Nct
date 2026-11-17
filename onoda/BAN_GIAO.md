@@ -63,3 +63,7 @@ Nhân vật hoạt hình (lính, Suzuki, Taniguchi, Tổng thống Marcos) đề
 - **34 cảnh, cắt nhanh ~3,5 s/cảnh**, chuyển cảnh **lia máy có nhoè** ở các mốc chuyển chương, mờ dần ở đoạn nặng.
 - **Kể bằng hình ảnh**: máy quay lao từ trời xuống đảo; linh vật đu dây leo; mắt phát sáng trong bụi rậm; màn hình chia đôi "Nhật đầu hàng / trong rừng không ai biết"; truyền đơn rơi vào tay; người lính đập thư bay ra; bóng đen đốt làng; **30 ngọn nến** thay cho con số; bếp lửa với 4 người lính lần lượt biến mất kèm **đồng hồ năm** 1949 → 1972; đèn pin rọi rừng, đôi mắt sáng lên ("thì Onoda?"); ngày đêm luân phiên khi Suzuki đi tìm; tấm ảnh hiện dần; chữ bật từng ký tự.
 - Đoạn có người chết vẫn không đùa; linh vật vắng mặt.
+
+## Phiên bản đã chốt
+
+**Chủ kênh chốt v2 (17/11/2026)**; v2 là mốc phong cách cho các tập sau.
