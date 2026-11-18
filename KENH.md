@@ -32,6 +32,7 @@ Thay phong cách giấy cắt (Midway v2) bằng **hoạt hình 2D**, theo bản
 - **Ảnh tư liệu thật** lồng vào cảnh như tranh, ảnh, tài liệu trong tay nhân vật — vẫn theo đúng quy tắc dùng ảnh ở trên.
 - Giữ nguyên: Shorts dọc 9:16, **giọng chủ kênh tự thu**, phụ đề tiếng Việt, hiệu ứng tiếng (không nhạc nền), đối chiếu sự kiện trước khi thu, không hiện tên kênh/logo trong video.
 - Ảnh đại diện và ảnh bìa kênh: `brand/avatar_*.png`, `brand/banner_*.png`.
+- Ảnh đại diện mới (18/11/2026, chủ kênh duyệt): chỉ Bộp, cận mặt, chống cằm suy nghĩ — `brand/avatar_bop_{cam,xanh,dem}.png` (tạo bằng `brand/make_avatar_bopgam.py solo`).
 
 ## Cập nhật: hoạt hình thuần (chủ kênh chốt 17/11/2026, từ Onoda v2)
 
