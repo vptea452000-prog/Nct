@@ -10,3 +10,4 @@ build/lipsync_cache.npz
 build/demo_pv_*.png
 build/lipsync_cache.npz
 build/sheet_*.png
+build/sfx_stem.wav
