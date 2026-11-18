@@ -96,6 +96,7 @@ def limb_path(c, pts, width, fill):
 
 
 # ---------------------------------------------------------------------- phong cách nhân vật
+COAT = {"bop": ("#B08A5A", "#8C6A42"), "gam": ("#9A7450", "#775638")}
 STYLES = {
     "bop": dict(skin="#8A5A3C", skin_d="#6E452C", hair="#1F1712", tunic="#8A6A44", tunic_d="#6B5032", fur="#C9B48A",
                 head=(118, 128), torso_w=150, torso_h=170, leg=78, arm=(78, 72), nose="small", beard=False, eye_scale=1.08,
@@ -145,6 +146,82 @@ class Pose:
     vein: float = 0.0
     lag: float = 0.0              # độ trễ đàn hồi (râu/tóc/vạt áo)
     alpha: float = 1.0
+    # trang phục
+    outfit: str = "tunic"         # tunic / bare (khố) / coat (áo khâu ôm, có tay) / bigcoat (áo to của Gầm)
+    cape: float = 0.0             # 0..1 tấm da khoác hờ ở vai
+    cape_flap: float = 0.0        # độ bay phần phật (0..1)
+    cape_hole: bool = False
+    cape_drop: float = 0.0        # 0..1 tấm da tuột xuống khỏi vai
+    shiver: float = 0.0           # run lẩy bẩy
+    prop_r: object = None         # hàm vẽ đạo cụ ở bàn tay trước: fn(c) (gốc toạ độ = bàn tay)
+    prop_l: object = None
+    collar_up: float = 0.0        # kéo cổ áo kín
+
+
+def _bare(c, st, w, h, who):
+    top, bot = -150 - h, -150
+    body = skia.Path(); body.moveTo(-w / 2 + 14, top + 10); body.quadTo(0, top - 14, w / 2 - 14, top + 10)
+    body.quadTo(w / 2 + 6, (top + bot) / 2, w / 2 - 6, bot); body.lineTo(-w / 2 + 6, bot)
+    body.quadTo(-w / 2 - 6, (top + bot) / 2, -w / 2 + 14, top + 10); body.close()
+    fo(c, body, st["skin"], ow=7)
+    c.drawLine(-w * 0.18, top + h * 0.35, -w * 0.05, top + h * 0.38, P(st["skin_d"], stroke=6))
+    c.drawLine(w * 0.18, top + h * 0.35, w * 0.05, top + h * 0.38, P(st["skin_d"], stroke=6))
+    if who == "gam":
+        for k in range(7):
+            x = -w * 0.15 + k * w * 0.05
+            c.drawLine(x, top + h * 0.45, x + 6, top + h * 0.45 + 16, P(st["hair"], stroke=4))
+    lo = skia.Path(); lo.moveTo(-w / 2 + 4, bot - 34); lo.lineTo(w / 2 - 4, bot - 34); lo.lineTo(w / 2, bot + 6)
+    for k in range(5, -1, -1):
+        lo.lineTo(-w / 2 + w * k / 5, bot + (26 if k % 2 else 10))
+    lo.close(); fo(c, lo, st["tunic"], ow=6)
+
+
+def _coat(c, st, w, h, who, lag, collar_up, big):
+    col, dark = COAT[who]
+    if big:
+        w *= 1.18
+    top, bot = -150 - h, -150
+    p = skia.Path()
+    p.moveTo(-w / 2 + 4, top + 4); p.lineTo(w / 2 - 4, top + 4)
+    p.quadTo(w / 2 + 10, (top + bot) / 2, w / 2 + 6 + lag * 0.3, bot + 42)
+    p.quadTo(0, bot + 56, -w / 2 - 6 + lag * 0.3, bot + 42)
+    p.quadTo(-w / 2 - 10, (top + bot) / 2, -w / 2 + 4, top + 4); p.close()
+    c.drawPath(p, P(col))
+    c.save(); c.clipPath(p, skia.ClipOp.kIntersect, True)
+    c.drawRect(skia.Rect.MakeXYWH(w * 0.15, top, w, h + 80), P(dark, 110))
+    c.restore()
+    c.drawPath(p, P(OUT, stroke=7))
+    # đường khâu hai bên sườn + giữa
+    for x0 in (-w * 0.36, w * 0.36):
+        for k in range(7):
+            y = top + 24 + k * (h + 10) / 7
+            c.drawLine(x0 - 7, y, x0 + 7, y + 10, P("#F1E2C0", stroke=4))
+    c.drawLine(0, top + 10, 0, bot + 50, P(dark, stroke=5))
+    cy_ = top - 8 - collar_up * 26
+    fur = skia.Path(); fur.moveTo(-w * 0.42, top + 14)
+    for k in range(8):
+        fur.quadTo(-w * 0.42 + w * 0.84 * (k + 0.5) / 8, cy_ - (16 if k % 2 else 4), -w * 0.42 + w * 0.84 * (k + 1) / 8, top + 14)
+    fur.close(); fo(c, fur, "#E6D6B0", ow=5)
+
+
+def _cape_back(c, st, w, h, lag, flap, t, hole):
+    top = -150 - h
+    fl = flap * (0.6 + 0.4 * math.sin(t * 22))
+    p = skia.Path(); p.moveTo(-w / 2 - 10, top + 6)
+    p.lineTo(w / 2 + 6, top + 6)
+    p.cubicTo(w / 2 + 30, top + h * 0.6, w / 2 + 20 - fl * 60, top + h + 40 - fl * 80, w / 2 - 10 - fl * 160 + lag * 0.3, top + h + 70 - fl * 150)
+    for k in range(6):
+        p.lineTo(w / 2 - 10 - fl * 160 - (w + 40 + fl * 140) * (k + 1) / 6 + lag * 0.3,
+                 top + h + 70 - fl * 150 + (14 if k % 2 else -4) - fl * 60 * (k + 1) / 6)
+    p.cubicTo(-w / 2 - 70 - fl * 220, top + h * 0.6 - fl * 90, -w / 2 - 50 - fl * 60, top + 40, -w / 2 - 10, top + 6)
+    p.close()
+    fo(c, p, "#A6855C", ow=7)
+    c.save(); c.clipPath(p, skia.ClipOp.kIntersect, True)
+    for k in range(5):
+        c.drawCircle(-w * 0.6 + k * w * 0.35 - fl * 80, top + h * 0.5 + (k % 2) * 40, 22, P("#8C6E48"))
+    if hole:
+        c.drawOval(skia.Rect.MakeXYWH(-w * 0.75 - fl * 90, top + h * 0.35, 90, 70), P("#1E1712"))
+    c.restore()
 
 
 def _hide_tunic(c, st, w, h, lag):
@@ -208,6 +285,16 @@ def _eye(c, ex, ey, rw, rh, kind, look, openness, t, side):
 
 def _mouth(c, mx, my, rx, kind, talk, t, st):
     o = clamp(talk)
+    if kind == "chatter":
+        w = rx * 0.34; hh = rx * 0.12
+        c.drawRoundRect(skia.Rect.MakeXYWH(mx - w, my - hh, 2 * w, 2 * hh), 8, 8, P("#FFFFFF"))
+        off = 5 * math.sin(t * 60)
+        c.drawLine(mx - w, my + off * 0.3, mx + w, my - off * 0.3, P(OUT, stroke=4))
+        for k in range(1, 5):
+            x = mx - w + 2 * w * k / 5
+            c.drawLine(x, my - hh, x, my + hh, P(OUT, stroke=3))
+        c.drawRoundRect(skia.Rect.MakeXYWH(mx - w, my - hh, 2 * w, 2 * hh), 8, 8, P(OUT, stroke=5))
+        return
     if o > 0.06 or kind in ("o", "shout"):
         if kind == "shout":
             o = max(o, 0.65)
@@ -354,7 +441,7 @@ def draw_char(c, p: Pose):
     c.save()
     if p.alpha < 0.999:
         c.saveLayerAlpha(None, int(255 * clamp(p.alpha)))
-    c.translate(p.x, p.y); c.scale(p.s, p.s)
+    c.translate(p.x + p.shiver * 7 * math.sin(t * 75), p.y); c.scale(p.s, p.s)
     c.scale(p.face, 1)
     # bóng đổ
     c.drawOval(skia.Rect.MakeXYWH(-120, -14, 240, 28), P("#000000", 50 * (1 - 0.5 * p.feet_air / 100)))
@@ -401,15 +488,37 @@ def draw_char(c, p: Pose):
         else:
             tx, ty = sx + hand[0], sh_y + hand[1]
         ex, ey = ik2(sx, sh_y, tx, ty, al, af, bend=-1 if sd > 0 else 1)
-        limb_path(c, [(sx, sh_y), (ex, ey), (tx, ty)], 34, st["skin"])
+        if p.outfit in ("coat", "bigcoat"):
+            limb_path(c, [(sx, sh_y), (ex, ey), (tx, ty)], 44, COAT[p.who][0 if sd > 0 else 1])
+            c.drawLine(lerp(ex, tx, 0.75) - 14, lerp(ey, ty, 0.75) - 14, lerp(ex, tx, 0.75) + 14, lerp(ey, ty, 0.75) + 14, P("#E6D6B0", stroke=12))
+        else:
+            limb_path(c, [(sx, sh_y), (ex, ey), (tx, ty)], 34, st["skin"])
         fo(c, oval(tx, ty, 26, 24), st["skin"], ow=6)
+        pr = p.prop_r if sd > 0 else p.prop_l
+        if pr:
+            c.save(); c.translate(tx, ty); pr(c); c.restore()
         return tx, ty
 
     # vật cầm (sau tay phải)
+    if p.cape > 0:
+        c.saveLayerAlpha(None, int(255 * clamp(p.cape)))
+        c.translate(0, p.cape_drop * th_ * 0.85); c.rotate(-p.cape_drop * 12)
+        _cape_back(c, st, tw_, th_, p.lag, p.cape_flap, t, p.cape_hole)
+        c.restore()
     hl = arm(-1, p.hand_l, True)
     if p.hold and p.hold_side == "l":
         _held(c, hl, p)
-    _hide_tunic(c, st, tw_, th_, p.lag)
+    if p.outfit == "bare":
+        _bare(c, st, tw_, th_, p.who)
+    elif p.outfit in ("coat", "bigcoat"):
+        _coat(c, st, tw_, th_, p.who, p.lag, p.collar_up, p.outfit == "bigcoat")
+    else:
+        _hide_tunic(c, st, tw_, th_, p.lag)
+    if p.cape > 0 and p.cape_drop < 0.3:
+        top = -150 - th_
+        c.drawLine(-tw_ * 0.3, top + 10, tw_ * 0.3, top + 10, P(OUT, 255 * p.cape, stroke=16))
+        c.drawLine(-tw_ * 0.3, top + 10, tw_ * 0.3, top + 10, P("#A6855C", 255 * p.cape, stroke=9))
+        fo(c, oval(tw_ * 0.18, top + 18, 16, 14), "#8C6E48", ow=4, a=255 * p.cape)
     # đầu
     c.save()
     c.translate(p.head_dx, sh_y - ry * 0.98 + p.head_dy)

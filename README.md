@@ -14,3 +14,4 @@ Kênh kể chuyện lịch sử có thật bằng tiếng Việt (trước đây
 | Vì sao trong người bạn có ADN của một loài người đã tuyệt chủng? | [neanderthal/](neanderthal/) | v1 đã dựng; 2 câu nên thu lại — `BAN_GIAO.md` |
 | Tập 1: Lửa (phim hài không lời) | [lua/](lua/) | **v1 chủ kênh duyệt** — `BAN_GIAO.md` |
 | Tập 2: Cây giáo (phim hài không lời) | [giao/](giao/) | v1 chốt (chủ kênh đã lưu); `demo/` là thử nghiệm bộ khung v2 — `BAN_GIAO.md` |
+| Tập 3: Kim khâu và áo da (phim hài không lời, bộ khung v2) | [ao/](ao/) | v1 đã dựng; chờ chủ kênh duyệt — `BAN_GIAO.md` |
