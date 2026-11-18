@@ -1,6 +1,6 @@
 # Ghi chú dựng — Nếu bạn là người lính Nhật trong Thế Chiến II
 
-Nhân vật hình ảnh (chibi, thiết kế mới, không dùng nhân vật chuỗi nguyên thủy): **"bạn"** — chàng trai làng chài 19 tuổi; **Kenji** — đồng đội to con, con nhà làm đậu phụ, hay pha trò; **mẹ**; viên đội trưởng; lính khác.
+Nhân vật hình ảnh (người que — `tools/stick2.py`, xem `nhan_vat.png`): **"bạn"** — chàng trai làng chài 19 tuổi; **Kenji** — đồng đội to con, con nhà làm đậu phụ, hay pha trò; **mẹ**; viên đội trưởng; lính khác.
 
 ## Khung hình dự kiến
 

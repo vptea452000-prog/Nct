@@ -77,5 +77,5 @@ Chủ kênh: "khá hay, khá vui" → định dạng phim hài không lời đư
 - Video ngang 16:9, kể ở ngôi "bạn" (ví dụ: "Nếu bạn là người lính Nhật trong Thế Chiến II"). Claude viết kịch bản, chủ kênh thu giọng đọc, Claude dựng video.
 - Viết như **kể chuyện** có nhân vật và cảm xúc, không viết kiểu bài lịch sử nhiều mốc và con số.
 - File kịch bản (`KICH_BAN.md`) chỉ có **một bài đọc liền mạch**: không chia phần, không tiêu đề phụ, không ghi chú ngắt nghỉ. Khung hình và đối chiếu dữ kiện để riêng ở `GHI_CHU.md`.
-- **Không dùng tên/nhân vật chuỗi nguyên thủy (Bộp, Gầm)**; nhân vật đặt tên hợp bối cảnh (lính Nhật: Kenji…), vẽ chibi theo bộ khung v2 với trang phục riêng.
+- **Không dùng tên/nhân vật chuỗi nguyên thủy (Bộp, Gầm)**; nhân vật đặt tên hợp bối cảnh (lính Nhật: Kenji…), vẽ **người que** (`tools/stick2.py`) — chủ kênh chốt 19/11/2026 thay cho chibi.
 - Nhân vật diễn câm theo lời dẫn, có hiệu ứng tiếng; chuyển động tự nhiên, hoạt bát.
