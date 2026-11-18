@@ -15,3 +15,4 @@ Kênh kể chuyện lịch sử có thật bằng tiếng Việt (trước đây
 | Tập 1: Lửa (phim hài không lời) | [lua/](lua/) | **v1 chủ kênh duyệt** — `BAN_GIAO.md` |
 | Tập 2: Cây giáo (phim hài không lời) | [giao/](giao/) | v1 chốt (chủ kênh đã lưu); `demo/` là thử nghiệm bộ khung v2 — `BAN_GIAO.md` |
 | Tập 3: Kim khâu và áo da (phim hài không lời, bộ khung v2) | [ao/](ao/) | v1 đã dựng; chờ chủ kênh duyệt — `BAN_GIAO.md` |
+| Tập 4: Dây thừng (phim hài không lời, bộ khung v2) | [day/](day/) | v1 đã dựng; chờ chủ kênh duyệt — `BAN_GIAO.md` |
