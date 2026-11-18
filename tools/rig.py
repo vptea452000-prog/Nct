@@ -97,6 +97,7 @@ def limb_path(c, pts, width, fill):
 
 # ---------------------------------------------------------------------- phong cách nhân vật
 COAT = {"bop": ("#B08A5A", "#8C6A42"), "gam": ("#9A7450", "#775638")}
+STYLES_EXTRA = {}
 STYLES = {
     "bop": dict(skin="#8A5A3C", skin_d="#6E452C", hair="#1F1712", tunic="#8A6A44", tunic_d="#6B5032", fur="#C9B48A",
                 head=(118, 128), torso_w=150, torso_h=170, leg=78, arm=(78, 72), nose="small", beard=False, eye_scale=1.08,
@@ -105,6 +106,8 @@ STYLES = {
                 head=(134, 118), torso_w=196, torso_h=160, leg=70, arm=(82, 74), nose="big", beard=True, eye_scale=0.92,
                 brow_w=17),
 }
+STYLES["npc_gran"] = dict(STYLES["bop"], skin="#D9A57E", skin_d="#B98560", hair="#C9C9C9", eye_scale=0.95, brow_w=9)
+STYLES["npc_man"] = dict(STYLES["gam"], skin="#E0B08A", skin_d="#C09068", hair="#2A2A2A", beard=False, nose="small")
 
 
 @dataclass
@@ -156,6 +159,28 @@ class Pose:
     prop_r: object = None         # hàm vẽ đạo cụ ở bàn tay trước: fn(c) (gốc toạ độ = bàn tay)
     prop_l: object = None
     collar_up: float = 0.0        # kéo cổ áo kín
+    # đồ hiện đại (outfit="modern")
+    shirt: str = "#4A90C2"
+    pants: str = "#3B4A6B"
+    shoes: str = "#2A2A2A"
+    sleeves: str = "short"        # short / long
+    sway: float = 1.0             # đung đưa chuyển trọng tâm khi đứng / nhún khi đi
+
+
+def _modern(c, st, w, h, p):
+    top, bot = -150 - h, -150
+    pants = skia.Path(); pants.addRRect(skia.RRect.MakeRectXY(skia.Rect.MakeXYWH(-w / 2 + 6, bot - 40, w - 12, 60), 16, 16))
+    fo(c, pants, p.pants, ow=6)
+    body = skia.Path(); body.moveTo(-w / 2 + 10, top + 6); body.lineTo(w / 2 - 10, top + 6)
+    body.quadTo(w / 2 + 6, (top + bot) / 2, w / 2 - 2, bot - 10); body.lineTo(-w / 2 + 2, bot - 10)
+    body.quadTo(-w / 2 - 6, (top + bot) / 2, -w / 2 + 10, top + 6); body.close()
+    c.drawPath(body, P(p.shirt))
+    c.save(); c.clipPath(body, skia.ClipOp.kIntersect, True)
+    c.drawRect(skia.Rect.MakeXYWH(w * 0.18, top, w, h + 40), P("#000000", 28))
+    c.restore()
+    c.drawPath(body, P(OUT, stroke=7))
+    col = skia.Path(); col.moveTo(-26, top + 6); col.lineTo(0, top + 34); col.lineTo(26, top + 6)
+    c.drawPath(col, P(OUT, stroke=6))
 
 
 def _bare(c, st, w, h, who):
@@ -448,7 +473,10 @@ def draw_char(c, p: Pose):
     sq = p.squash
     c.save()
     c.scale(1 / math.sqrt(sq), sq)
-    crouch_drop = p.crouch * 60
+    bob = 0.0
+    if p.walk is not None:
+        bob = 9 * p.sway * abs(math.sin(p.walk)) * p.stride - 3
+    crouch_drop = p.crouch * 60 + bob
     lift = -p.feet_air
     c.translate(0, lift)
     # chân (IK)
@@ -468,11 +496,14 @@ def draw_char(c, p: Pose):
         kx, ky = ik2(hx, hip_y, fx, fy - 10, L, L, bend=1)
         if ky > hip_y + L * 1.9:
             ky = hip_y + L
-        limb_path(c, [(hx, hip_y), (kx, ky), (fx, fy - 10)], 40, st["skin"])
-        fo(c, skia.Path().addRRect(skia.RRect.MakeRectXY(skia.Rect.MakeXYWH(fx - 30, fy - 30, 66, 32), 14, 14)) or skia.Path(), st["tunic_d"], ow=5)
+        modern = p.outfit == "modern"
+        limb_path(c, [(hx, hip_y), (kx, ky), (fx, fy - 10)], 46 if modern else 40, p.pants if modern else st["skin"])
+        fo(c, skia.Path().addRRect(skia.RRect.MakeRectXY(skia.Rect.MakeXYWH(fx - 30, fy - 30, 70 if modern else 66, 32), 14, 14)) or skia.Path(),
+           p.shoes if modern else st["tunic_d"], ow=5)
     # thân
     c.save()
-    c.translate(0, hip_y); c.rotate(p.lean); c.scale(1, breathe); c.translate(0, -hip_y + crouch_drop * 0)
+    idle_sway = (1.6 * math.sin(t * 1.1 + (0.7 if p.who == "gam" else 0)) if p.walk is None else 2.5 * math.sin(p.walk)) * p.sway
+    c.translate(0, hip_y); c.rotate(p.lean + idle_sway); c.scale(1, breathe); c.translate(0, -hip_y + crouch_drop * 0)
     c.translate(0, crouch_drop)
     # tay sau (trái)
     sh_y = -150 - th_ + 22
@@ -488,7 +519,13 @@ def draw_char(c, p: Pose):
         else:
             tx, ty = sx + hand[0], sh_y + hand[1]
         ex, ey = ik2(sx, sh_y, tx, ty, al, af, bend=-1 if sd > 0 else 1)
-        if p.outfit in ("coat", "bigcoat"):
+        if p.outfit == "modern":
+            limb_path(c, [(sx, sh_y), (ex, ey), (tx, ty)], 34, st["skin"])
+            if p.sleeves == "long":
+                limb_path(c, [(sx, sh_y), (ex, ey), (lerp(ex, tx, 0.8), lerp(ey, ty, 0.8))], 42, p.shirt)
+            else:
+                limb_path(c, [(sx, sh_y), (lerp(sx, ex, 0.75), lerp(sh_y, ey, 0.75))], 46, p.shirt)
+        elif p.outfit in ("coat", "bigcoat"):
             limb_path(c, [(sx, sh_y), (ex, ey), (tx, ty)], 44, COAT[p.who][0 if sd > 0 else 1])
             c.drawLine(lerp(ex, tx, 0.75) - 14, lerp(ey, ty, 0.75) - 14, lerp(ex, tx, 0.75) + 14, lerp(ey, ty, 0.75) + 14, P("#E6D6B0", stroke=12))
         else:
@@ -508,7 +545,9 @@ def draw_char(c, p: Pose):
     hl = arm(-1, p.hand_l, True)
     if p.hold and p.hold_side == "l":
         _held(c, hl, p)
-    if p.outfit == "bare":
+    if p.outfit == "modern":
+        _modern(c, st, tw_, th_, p)
+    elif p.outfit == "bare":
         _bare(c, st, tw_, th_, p.who)
     elif p.outfit in ("coat", "bigcoat"):
         _coat(c, st, tw_, th_, p.who, p.lag, p.collar_up, p.outfit == "bigcoat")
