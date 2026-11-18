@@ -16,7 +16,7 @@ VOICE = {
 EMO = {  # (hệ số cao độ, hệ số tốc độ, âm lượng dB, kiểu ngữ điệu)
     "calm": (1.0, 1.0, 0, "flat"), "happy": (1.12, 1.1, 1, "up"), "angry": (1.25, 1.15, 3, "punch"), "worried": (1.15, 1.2, 0, "wobble"),
     "sad": (0.9, 0.8, -3, "down"), "cold": (1.05, 0.9, -1, "tremble"), "grumpy": (0.95, 1.0, 0, "down"), "shy": (1.1, 0.8, -6, "down"),
-    "scared": (1.2, 1.0, -6, "flat"), "panic": (1.6, 1.6, 4, "wobble"), "wonder": (1.0, 0.85, -1, "up"), "proud": (1.15, 1.0, 3, "punch"),
+    "scared": (1.2, 1.0, -6, "flat"), "sleepy": (0.85, 0.6, -6, "down"), "sing": (1.2, 0.7, 0, "wobble"), "smug": (1.05, 0.9, 1, "up"), "panic": (1.6, 1.6, 4, "wobble"), "wonder": (1.0, 0.85, -1, "up"), "proud": (1.15, 1.0, 3, "punch"),
 }
 
 
