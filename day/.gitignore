@@ -12,3 +12,5 @@ build/lipsync_cache.npz
 build/sheet_*.png
 build/sfx_stem.wav
 build/log.txt
+build/chunk_*.mp4
+build/chunks.txt
