@@ -72,3 +72,10 @@ Chủ kênh: "khá hay, khá vui" → định dạng phim hài không lời đư
 - **Âm thanh phim hài không lời (sửa sau Tập 1):** giọng ú ớ phải liền mạch, không chèn tiếng phụ âm/tiếng gõ; không đặt chuỗi tiếng lách cách, tích tắc, tí tách dày dưới lời thoại.
 - **Giọng ú ớ đã chốt (17/11/2026):** dùng đúng giọng của Tập 1 bản sửa, lưu trong `tools/babble.py` (Bộp cao–nhanh–nhẹ, Gầm trầm–chậm–khàn; cảm xúc theo câu). Nhân vật mới thêm vào bảng `VOICE` cùng kiểu.
 - **Bộ khung nhân vật v2 (18/11/2026, chủ kênh khen "linh hoạt vui nhộn hơn", cải thiện dần):** `tools/rig.py` (tỉ lệ chibi, tay chân IK, lấy đà–co giãn–nảy, thở/chớp mắt/đung đưa, nét mặt phong phú, lợn rừng sống động) + `tools/lipsync.py` (nhép miệng theo âm lượng giọng ú ớ, cùng seed/mốc với sfx_events). Mẫu dùng: `giao/demo/demo.py`. Áp dụng từ Tập 3 trở đi (Tập 2 giữ bản v1).
+
+## Định dạng kể chuyện 16:9 (từ 19/11/2026)
+- Video ngang 16:9, kể ở ngôi "bạn" (ví dụ: "Nếu bạn là người lính Nhật trong Thế Chiến II"). Claude viết kịch bản, chủ kênh thu giọng đọc, Claude dựng video.
+- Viết như **kể chuyện** có nhân vật và cảm xúc, không viết kiểu bài lịch sử nhiều mốc và con số.
+- File kịch bản (`KICH_BAN.md`) chỉ có **một bài đọc liền mạch**: không chia phần, không tiêu đề phụ, không ghi chú ngắt nghỉ. Khung hình và đối chiếu dữ kiện để riêng ở `GHI_CHU.md`.
+- **Không dùng tên/nhân vật chuỗi nguyên thủy (Bộp, Gầm)**; nhân vật đặt tên hợp bối cảnh (lính Nhật: Kenji…), vẽ chibi theo bộ khung v2 với trang phục riêng.
+- Nhân vật diễn câm theo lời dẫn, có hiệu ứng tiếng; chuyển động tự nhiên, hoạt bát.
