@@ -13,4 +13,4 @@ Kênh kể chuyện lịch sử có thật bằng tiếng Việt (trước đây
 | Vì sao một người lính Nhật vẫn chiến đấu 29 năm sau khi chiến tranh kết thúc? | [onoda/](onoda/) | **v2 đã chốt** (hoạt hình thuần, có hiệu ứng tiếng) — `BAN_GIAO.md` |
 | Vì sao trong người bạn có ADN của một loài người đã tuyệt chủng? | [neanderthal/](neanderthal/) | v1 đã dựng; 2 câu nên thu lại — `BAN_GIAO.md` |
 | Tập 1: Lửa (phim hài không lời) | [lua/](lua/) | **v1 chủ kênh duyệt** — `BAN_GIAO.md` |
-| Tập 2: Cây giáo (phim hài không lời) | [giao/](giao/) | v1 đã dựng; demo bộ khung v2 (12,6s đầu) được khen — `BAN_GIAO.md`, `demo/` |
+| Tập 2: Cây giáo (phim hài không lời) | [giao/](giao/) | v1 chốt (chủ kênh đã lưu); `demo/` là thử nghiệm bộ khung v2 — `BAN_GIAO.md` |
