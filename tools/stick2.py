@@ -187,7 +187,7 @@ def draw_stick(c, p: Stick):
     def leg(foot_toe, col):
         (fx, fy), toe = foot_toe
         kx, ky = ik2(hip[0], hip[1], fx, fy - 6, LEG, LEG, bend=1)
-        hose(hip, (kx, ky), (fx, fy - 6), 14, col)
+        hose(hip, (kx, ky), (fx, fy - 6), 14, None)      # chân: một nét đen
         a = math.radians(toe)
         c.drawLine(fx - 4, fy - 4, fx - 4 + 28 * math.cos(a), fy - 4 - 28 * math.sin(a) * -1, P(INK, stroke=16))
 
@@ -217,7 +217,7 @@ def draw_stick(c, p: Stick):
             hy += 3 * math.sin(t * 2.3 + seed * 1.3 + side) * still
         tx, ty = sh[0] + hx, sh[1] + hy
         ex, ey = ik2(sh[0], sh[1], tx, ty, 92, 88, bend=-1)
-        hose(sh, (ex, ey), (tx, ty), 14, col)
+        hose(sh, (ex, ey), (tx, ty), 14, None)           # tay: một nét đen
         c.drawCircle(tx, ty, 11, P(INK))
         return tx, ty
 
@@ -234,10 +234,18 @@ def draw_stick(c, p: Stick):
     c.drawPath(spine, P(INK, stroke=14))
     # thân áo
     if cloth:
-        w_top, w_bot = 22 * bodyk + 6, 36 * bodyk + 6
-        bot = hip[1] + (55 if L.get("skirt") else 8)
-        body = skia.Path(); body.moveTo(-w_top, sh[1] + 4); body.lineTo(w_top, sh[1] + 4)
-        body.lineTo(w_bot, bot); body.lineTo(-w_bot, bot); body.close()
+        w_top, w_bot = 24 * bodyk + 6, 36 * bodyk + 6
+        bot = hip[1] + (55 if L.get("skirt") else 10)
+        top = sh[1] - 2
+        mid = (top + bot) / 2
+        # thân bo tròn: vai tròn, hông phình nhẹ, gấu bo góc
+        body = skia.Path(); body.moveTo(0, top)
+        body.cubicTo(w_top * 0.9, top, w_top + 6, top + 10, w_top + 4, top + 34)
+        body.cubicTo(w_bot + 6, mid, w_bot + 8, bot - 26, w_bot - 6, bot)
+        body.quadTo(0, bot + 10, -w_bot + 6, bot)
+        body.cubicTo(-w_bot - 8, bot - 26, -w_bot - 6, mid, -w_top - 4, top + 34)
+        body.cubicTo(-w_top - 6, top + 10, -w_top * 0.9, top, 0, top)
+        body.close()
         fo(c, body, cloth[0], ow=6)
         c.save(); c.clipPath(body, skia.ClipOp.kIntersect, True)
         c.drawRect(skia.Rect.MakeXYWH(w_top * 0.3, sh[1], 200, 400), P(cloth[1], 140))
@@ -246,15 +254,18 @@ def draw_stick(c, p: Stick):
             c.drawLine(0, sh[1] + 10, 0, bot - 6, P(INK, 120, stroke=4))
             for k in range(3):
                 c.drawCircle(4, sh[1] + 30 + k * 34, 4, P("#D9C27A"))
-            c.drawRect(skia.Rect.MakeXYWH(-w_bot + 4, hip[1] - 14, 2 * w_bot - 8, 12), P("#4A3A26"))
+            c.save(); c.clipPath(body, skia.ClipOp.kIntersect, True)
+            c.drawRect(skia.Rect.MakeXYWH(-w_bot - 10, hip[1] - 16, 2 * w_bot + 20, 12), P("#4A3A26"))
+            c.restore()
         elif L.get("apron"):
-            ap = skia.Path(); ap.moveTo(-w_top * 0.7, hip[1] - 50); ap.lineTo(w_top * 0.7, hip[1] - 50)
-            ap.lineTo(w_bot * 0.75, bot - 6); ap.lineTo(-w_bot * 0.75, bot - 6); ap.close()
+            ap = skia.Path(); ap.addRRect(skia.RRect.MakeRectXY(skia.Rect.MakeXYWH(-w_top * 0.75, hip[1] - 50, w_top * 1.5, bot - hip[1] + 40), 14, 14))
             fo(c, ap, L["apron"], ow=4)
         else:
             c.drawLine(-w_top + 8, sh[1] + 8, 6, sh[1] + 70, P(INK, 140, stroke=4))
         if p.belt:
-            c.drawRect(skia.Rect.MakeXYWH(-w_bot, hip[1] - 40, 2 * w_bot, 22), P("#F3EEE2"))
+            c.save(); c.clipPath(body, skia.ClipOp.kIntersect, True)
+            c.drawRect(skia.Rect.MakeXYWH(-w_bot - 10, hip[1] - 40, 2 * w_bot + 20, 22), P("#F3EEE2"))
+            c.restore()
             for k in range(14):
                 c.drawCircle(-w_bot + 6 + k * (2 * w_bot - 12) / 13, hip[1] - 29, 3, P("#C0392B"))
     hf = arm(p.hand_f, 1, cloth[1] if cloth else None)
