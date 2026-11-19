@@ -20,3 +20,8 @@ p3/build/pv_*.png
 p3/build/*_nosfx.mp4
 p3/build/sfx_stem.wav
 p3/build/mix_voice_sfx.wav
+p4/audio/
+p4/build/pv_*.png
+p4/build/*_nosfx.mp4
+p4/build/sfx_stem.wav
+p4/build/mix_voice_sfx.wav
