@@ -22,7 +22,12 @@ def sentences(text):
 
 
 def syl(s):
-    return len([w for w in re.split(r"\s+", re.sub(r"[^\wÀ-ỹ\s]", " ", s)) if w])
+    n = 0
+    for w in re.split(r"\s+", re.sub(r"[^\wÀ-ỹ\s]", " ", s)):
+        if not w:
+            continue
+        n += round(len(w) * 1.75) if w.isdigit() else 1      # số đọc thành nhiều âm tiết (1945 ≈ 7)
+    return n
 
 
 def analyse(x):
