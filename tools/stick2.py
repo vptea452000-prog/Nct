@@ -127,6 +127,8 @@ class Stick:
     shiver: float = 0.0
     alpha: float = 1.0
     idle: float = 1.0             # độ cử động khi đứng yên (0,3 = đứng nghiêm)
+    scarf: str = None             # khăn quàng cổ (màu)
+    shawl: str = None             # khăn choàng vai (màu)
 
 
 def draw_stick(c, p: Stick):
@@ -268,6 +270,14 @@ def draw_stick(c, p: Stick):
             c.restore()
             for k in range(14):
                 c.drawCircle(-w_bot + 6 + k * (2 * w_bot - 12) / 13, hip[1] - 29, 3, P("#C0392B"))
+    if p.shawl:
+        sw = skia.Path(); sw.moveTo(-34 * bodyk - 10, sh[1] + 2); sw.quadTo(0, sh[1] - 14, 34 * bodyk + 10, sh[1] + 2)
+        sw.lineTo(30 * bodyk + 14, sh[1] + 70); sw.quadTo(0, sh[1] + 96, -30 * bodyk - 14, sh[1] + 70); sw.close()
+        fo(c, sw, p.shawl, ow=5)
+    if p.scarf:
+        c.drawLine(-22, sh[1] + 4, 22, sh[1] + 4, P(INK, stroke=22)); c.drawLine(-22, sh[1] + 4, 22, sh[1] + 4, P(p.scarf, stroke=14))
+        tail = skia.Path(); tail.moveTo(-14, sh[1] + 6); tail.lineTo(-30 - 6 * math.sin(t * 3), sh[1] + 70); tail.lineTo(-12, sh[1] + 74); tail.lineTo(2, sh[1] + 8); tail.close()
+        fo(c, tail, p.scarf, ow=4)
     hf = arm(p.hand_f, 1, cloth[1] if cloth else None)
     if p.rifle == "hold":
         with _Xf(c, hf[0], hf[1], -30):
@@ -380,6 +390,11 @@ def _head(c, L, p, R, t, seed):
         c.drawPath(pth, P(INK, stroke=4))
     else:
         c.drawLine(mx - 10, my, mx + 10, my, P(INK, stroke=5))
+    if cap == "flat":
+        cp = skia.Path(); cp.moveTo(-R * 1.02, -R * 0.2); cp.quadTo(-R * 0.95, -R * 1.12, R * 0.2, -R * 1.02)
+        cp.quadTo(R * 1.05, -R * 0.92, R * 1.02, -R * 0.36); cp.lineTo(R * 1.45, -R * 0.3); cp.quadTo(R * 1.2, -R * 0.16, R * 0.9, -R * 0.2); cp.close()
+        fo(c, cp, L.get("cap_col", "#6A5A4A"), ow=6)
+        c.drawLine(-R * 0.9, -R * 0.42, R * 0.9, -R * 0.42, P("#000000", 40, stroke=6))
     if cap == "soldier":
         cp = skia.Path(); cp.moveTo(-R * 1.0, -R * 0.25); cp.quadTo(-R * 0.95, -R * 1.15, R * 0.15, -R * 1.08)
         cp.quadTo(R * 0.98, -R * 1.0, R * 1.0, -R * 0.3); cp.close()
