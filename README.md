@@ -17,3 +17,4 @@ Kênh kể chuyện lịch sử có thật bằng tiếng Việt (trước đây
 | Tập 3: Kim khâu và áo da (phim hài không lời, bộ khung v2) | [ao/](ao/) | v1 đã dựng; chờ chủ kênh duyệt — `BAN_GIAO.md` |
 | Tập 4: Dây thừng (phim hài không lời, bộ khung v2) | [day/](day/) | v1 đã dựng; chờ chủ kênh duyệt — `BAN_GIAO.md` |
 | Nếu bạn là người lính Nhật trong Thế Chiến II (kể chuyện 16:9, người que) | [linh_nhat/](linh_nhat/) | v1 hoàn chỉnh 4:17 — `final/Linh_Nhat_v1.mp4` |
+| Nếu bạn là hành khách hạng ba trên tàu Titanic (kể chuyện 16:9, người que) | [titanic/](titanic/) | v1 hoàn chỉnh 6:44 — `build/Titanic_v1.mp4` |
