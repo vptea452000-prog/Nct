@@ -8,3 +8,5 @@ build/c.txt
 build/render.log
 build/sheet_*.png
 __pycache__/
+build/seg_*.mp4
+build/p.txt
