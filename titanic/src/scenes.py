@@ -118,7 +118,7 @@ def titanic(c, x, y, s, t, lights=1.0, tilt=0.0, broken=0.0, stern_up=0.0, smoke
     if broken > 0:
         c.restore()
         # nửa sau (đuôi) tách ra, dựng đứng
-        c.save(); c.translate(-80, 0); c.rotate(-80 * stern_up); c.translate(80, 0)
+        c.save(); c.translate(-80, 0); c.rotate(80 * stern_up); c.translate(80, 0)
         c.clipRect(skia.Rect.MakeXYWH(-4000, -2000, 3920, 4000))
         fo(c, hull, hull_col, ow=8)
         c.drawRect(skia.Rect.MakeXYWH(-1500, 60, 2900, 60), P("#7A2A22"))

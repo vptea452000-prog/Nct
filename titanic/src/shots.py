@@ -742,7 +742,7 @@ def e_balance(c, t):                   # 315,85–337,2  đứng trên lưng xu�
     lt = t - 315.85
     q = ease_shot(t, 315.85, 337.2)
     sway = 6 * math.sin(lt * 0.9)
-    K = Cam(lerp(1000, 960, q), lerp(560, 520, q), lerp(1.45, 1.6, q), rot=sway * 0.25, t=t)
+    K = Cam(lerp(1000, 960, q), lerp(720, 700, q), lerp(1.4, 1.55, q), rot=sway * 0.25, t=t)
     K.layer(c, 0.0)
     grad(c, skia.Rect.MakeXYWH(-4000, -4000, W + 8000, H + 8000), lerp_col("#04060E", "#1A2238", clamp((lt - 16) / 6)), "#0A1020")
     K.end(c)
