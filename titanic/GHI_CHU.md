@@ -1,7 +1,7 @@
 # Ghi chú dựng — Nếu bạn là hành khách hạng ba trên tàu Titanic
 
 **Định dạng:** kể chuyện 16:9, người que (`tools/stick2.py`), diễn câm theo lời dẫn, hiệu ứng tiếng.
-**Độ dài:** khoảng 1.950 chữ, đọc vừa phải khoảng 10–11 phút. Gợi ý chia 5 file voice (xem cuối).
+**Độ dài:** khoảng 1.770 chữ, đọc vừa phải khoảng 9–10 phút. Gợi ý chia 5 file voice (xem cuối).
 
 **Nhân vật (đặt tên hợp bối cảnh):** "bạn" — chàng trai Ireland 20 tuổi; **Nora** — em gái 16 tuổi (khăn trùm đầu, chuỗi tràng hạt); **Patrick** — bạn đồng hương cao lớn, hay cười; **mẹ**; thủy thủ, ban nhạc, hành khách khác.
 
