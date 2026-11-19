@@ -79,3 +79,4 @@ Chủ kênh: "khá hay, khá vui" → định dạng phim hài không lời đư
 - File kịch bản (`KICH_BAN.md`) chỉ có **một bài đọc liền mạch**: không chia phần, không tiêu đề phụ, không ghi chú ngắt nghỉ. Khung hình và đối chiếu dữ kiện để riêng ở `GHI_CHU.md`.
 - **Không dùng tên/nhân vật chuỗi nguyên thủy (Bộp, Gầm)**; nhân vật đặt tên hợp bối cảnh (lính Nhật: Kenji…), vẽ **người que** (`tools/stick2.py`) — chủ kênh chốt 19/11/2026 thay cho chibi.
 - Nhân vật diễn câm theo lời dẫn, có hiệu ứng tiếng; chuyển động tự nhiên, hoạt bát.
+- **Nhịp máy quay (chủ kênh duyệt 19/11/2026):** máy luôn có chuyển động nhưng **vừa phải** — cảnh dài, cẩu/lia/đẩy chậm và êm, không rung tay; **chỉ nhanh ở khoảnh khắc cao trào** (zoom giật, nghiêng khung, chớp sáng, đồ vật đập vào khung). Mẫu: `linh_nhat/src/test_open2.py` (bản v3).

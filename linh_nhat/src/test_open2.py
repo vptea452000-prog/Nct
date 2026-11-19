@@ -284,9 +284,67 @@ def s7(c, t):
     c.restore()
 
 
-SHOTS = [(0, 2.2, s1), (2.2, 4.2, s2), (4.2, 5.6, s3), (5.6, 7.0, s4), (7.0, 8.4, s5), (8.4, 9.4, s6), (9.4, DUR, s7)]
+# ---------------------------------------------------------------- bản v3: nhịp vừa phải, chỉ nhanh ở cao trào
+def m1(c, t):  # 0–4,2: một cú cẩu máy chậm từ trời xuống, trôi nhẹ theo thuyền; cá nhảy trong khung
+    q = ease_in_out(clamp(t / 3.4))
+    K = Cam(lerp(1060, 1000, q), lerp(150, 600, q), lerp(1.0, 1.18, q), t=t)
+    K.layer(c, 0.0)
+    grad(c, skia.Rect.MakeXYWH(-2000, -2000, W + 4000, 3000), "#E89A6A", "#FCE6C8")
+    K.end(c)
+    K.layer(c, 0.25)
+    c.drawCircle(1500, 500, 120, P("#FFE0A8"))
+    for k in range(6):
+        c.drawCircle(300 + k * 300 + t * 6, 120 + (k % 2) * 80, 60, P("#FFFFFF", 120))
+    K.end(c)
+    K.layer(c, 0.5)
+    wave_band(c, 560, t, "#9DB7C2", amp=6)
+    for k in range(5):
+        x = 120 + k * 90
+        fo(c, skia.Path().addRect(skia.Rect.MakeXYWH(x, 520, 70, 46)) or skia.Path(), "#C9B79A", ow=4)
+    K.end(c)
+    K.layer(c, 1.0)
+    wave_band(c, 640, t, "#7FA1B0", amp=8)
+    fishers(c, t, 980, 760, 0.85)
+    if t > 2.6:
+        k = clamp((t - 2.6) / 0.9)
+        fish(c, 1430 + 70 * k, 790 - 200 * math.sin(math.pi * k), 1.2, rot=-40 + 80 * k)
+    wave_band(c, 830, t + 1, "#6A92A4", amp=12)
+    K.end(c)
+    K.layer(c, 1.3)
+    wave_band(c, 900, t * 1.2, "#5A8294", amp=16)
+    K.end(c)
+
+
+def m2(c, t):  # 4,2–7,0: cận nồi cơm, ngước chậm lên mặt mẹ, rồi lia nhẹ sang cửa khi bạn bước vào
+    lt = t - 4.2
+    up = ease_in_out(clamp(lt / 1.4))
+    pan = ease_in_out(clamp((lt - 1.3) / 1.4))
+    K = Cam(lerp(lerp(760, 640, up), 1050, pan), lerp(lerp(640, 480, up), 560, pan), lerp(lerp(2.2, 1.9, up), 1.2, pan), t=t)
+    door = ease_out(clamp((lt - 1.2) / 0.5))
+    yx = lerp(1700, 1260, ease_out(clamp((lt - 1.5) / 1.1)))
+    kitchen(c, t, K, with_you=door, you_x=yx)
+
+
+def m3(c, t):  # 7,0–9,0: máy trôi chậm theo trưởng làng tới chỗ bạn
+    lt = t - 7.0
+    chief_x = lerp(300, 760, ease_out(clamp(lt / 1.2)))
+    give = ease_out(clamp((lt - 1.25) / 0.45))
+    K = Cam(lerp(700, 960, ease_in_out(clamp(lt / 2.0))), 540, 1.25, t=t)
+    village(c, K, t, chief_x, give=give if lt > 1.25 else 0.0, show_you=True)
+
+
+def m4(c, t):  # 9,0–9,4: CAO TRÀO — zoom nhanh vào mặt bạn, khung nghiêng
+    lt = t - 9.0
+    hit = ease_out(clamp(lt / 0.25))
+    K = Cam(lerp(960, 1140, hit), lerp(540, 330, hit), lerp(1.25, 3.4, hit), rot=lerp(0, -8, hit),
+            shake=6 * hit * math.exp(-max(0, lt - 0.25) * 6), t=t)
+    village(c, K, t, 760, give=1.0, show_you=True)
+
+
+SHOTS = [(0, 4.2, m1), (4.2, 7.0, m2), (7.0, 9.0, m3), (9.0, 9.4, m4), (9.4, DUR, s7)]
+FLASH = {9.4}   # chỉ chớp sáng ở điểm cắt cao trào
 VO = [(0.3, 2.0, "Bạn mười chín tuổi."), (2.2, 4.1, "Bạn sống ở một làng chài nhỏ bên bờ biển Nhật Bản."),
-      (4.3, 6.9, "Mỗi tối mẹ bạn nấu một nồi cơm trắng…"), (7.1, 9.2, "Rồi một hôm, ông trưởng làng mang tới một tờ giấy màu đỏ."),
+      (4.3, 6.9, "Mỗi tối mẹ bạn nấu một nồi cơm trắng…"), (7.1, 9.3, "Rồi một hôm, ông trưởng làng mang tới một tờ giấy màu đỏ."),
       (9.4, 10.4, "Người ta gọi nó là “giấy đỏ”.")]
 
 
@@ -296,7 +354,7 @@ def frame(t, surf=None):
     for a, b, fn in SHOTS:
         if a <= t < b:
             c.save(); fn(c, t); c.restore()
-            if t - a < 0.08:        # chớp trắng rất nhẹ ở điểm cắt
+            if a in FLASH and t - a < 0.08:        # chớp sáng chỉ ở điểm cắt cao trào
                 c.drawRect(skia.Rect.MakeWH(W, H), P("#FFFFFF", 70 * (1 - (t - a) / 0.08)))
             break
     for a, b, s in VO:
@@ -322,14 +380,14 @@ if __name__ == "__main__":
     BUILD.mkdir(exist_ok=True)
     if sys.argv[1] == "preview":
         for ts in sys.argv[2:]:
-            Image.fromarray(frame(float(ts))[..., :3]).save(BUILD / f"pv2_{float(ts):05.2f}.png")
+            Image.fromarray(frame(float(ts))[..., :3]).save(BUILD / f"pv3_{float(ts):05.2f}.png")
     else:
         nfr = int(DUR * FPS); step = math.ceil(nfr / 4)
         with Pool(4) as pool:
             chs = pool.map(chunk, [(k, f, min(nfr, f + step)) for k, f in enumerate(range(0, nfr, step))])
         (BUILD / "t2.txt").write_text("".join(f"file '{x.name}'\n" for x in chs))
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(BUILD / "t2.txt"), "-c", "copy",
-                        str(BUILD / "Test_mo_dau_v2_nosfx.mp4")], check=True)
+                        str(BUILD / "Test_mo_dau_v3_nosfx.mp4")], check=True)
         for x in chs:
             x.unlink()
         (BUILD / "t2.txt").unlink()
