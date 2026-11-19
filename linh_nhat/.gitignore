@@ -4,3 +4,9 @@ build/sfx_stem.wav
 build/mix_voice_sfx.wav
 audio/
 __pycache__/
+audio/
+p1/audio/
+p1/build/pv_*.png
+p1/build/*_nosfx.mp4
+p1/build/sfx_stem.wav
+p1/build/mix_voice_sfx.wav
