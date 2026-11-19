@@ -397,7 +397,7 @@ def recruits_row(c, t, x0, n=5, gap=230, s=1.0, sweat=0.0, bow=0.0, start=0):
     for i in range(n):
         who = "you" if i == 2 else f"recruit{(i + start) % 4}"
         draw_stick(c, Stick(who, x0 + i * gap, GROUND, s, t + i * 0.3, face=1, uniform=True, cap="soldier",
-                            hand_f=(20, 170), hand_b=(-20, 170), eyes="dot", mouth="flat", lean=bow * 30, sweat=sweat,
+                            hand_f=(20, 170), hand_b=(-20, 170), eyes="dot", mouth="flat", lean=bow * 30, sweat=sweat, idle=0.3,
                             head_tilt=bow * 10))
 
 

@@ -126,6 +126,7 @@ class Stick:
     belt: bool = False            # thắt lưng nghìn mũi chỉ (lộ ra)
     shiver: float = 0.0
     alpha: float = 1.0
+    idle: float = 1.0             # độ cử động khi đứng yên (0,3 = đứng nghiêm)
 
 
 def draw_stick(c, p: Stick):
@@ -141,55 +142,82 @@ def draw_stick(c, p: Stick):
     c.translate(p.x + p.shiver * 5 * math.sin(t * 70), p.y)
     c.scale(p.s * p.face, p.s)
     c.drawOval(skia.Rect.MakeXYWH(-80 * bodyk, -10, 160 * bodyk, 20), P("#000000", 38))
-    # nhún khi đi, thở khi đứng
-    if p.walk is not None:
-        amp = 16 if p.run else 9
-        bob = -amp * abs(math.cos(p.walk)) + amp * 0.5
-        sway = (4 if p.run else 2.5) * math.sin(p.walk)
+    # ---- chuyển động thân: đi có 2 nhịp nhún mỗi chu kỳ; đứng thì dồn trọng tâm, thở, gật nhẹ
+    walking = p.walk is not None and p.sit < 0.5
+    still = (1.0 - min(1.0, p.sit + p.crouch)) * p.idle        # bớt cử động thừa khi ngồi/khom/đứng nghiêm
+    if walking:
+        amp = 18 if p.run else 10
+        bob = amp * 0.5 * (1 - math.cos(2 * p.walk)) - amp * 0.6     # thấp nhất lúc hai chân dang rộng
+        sway = (5 if p.run else 3) * math.sin(p.walk)
+        hip_x = 0.0
+        lean_auto = 7 if p.run else 3.5
+        head_bob = amp * 0.35 * math.cos(2 * p.walk - 0.8)          # đầu nảy trễ sau thân
     else:
-        bob = 1.5 * math.sin(t * 2.2 + seed)
-        sway = 1.4 * math.sin(t * 1.1 + seed)
+        bob = (2.2 * math.sin(t * 2.1 + seed)) * still
+        shift = math.sin(t * 0.55 + seed * 2.0)                      # dồn trọng tâm chậm sang trái/phải
+        hip_x = 9 * shift * still
+        sway = (-2.2 * shift + 1.0 * math.sin(t * 1.3 + seed)) * still
+        lean_auto = 0.0
+        head_bob = 1.2 * math.sin(t * 2.1 + seed - 0.6) * still
     drop = p.crouch * 70 + p.sit * 150
-    hip = (0.0, -2 * LEG + drop + bob)
-    stride = (62 if p.run else 44)
+    hip = (hip_x, -2 * LEG + drop + bob)
+    stride = (64 if p.run else 46)
 
     def foot_pos(side):
         if p.sit > 0.5:
-            return (side * 20 + 110, -4)
-        if p.walk is not None:
+            return (side * 20 + 110, -4), 0.0
+        if walking:
             ph = p.walk + (0 if side > 0 else math.pi)
-            return (side * 6 + stride * math.sin(ph), -max(0.0, math.cos(ph)) * (34 if p.run else 22))
-        return (side * 24 * bodyk, 0)
+            sw = math.sin(ph)
+            lift = max(0.0, math.cos(ph)) ** 1.5 * (40 if p.run else 26)
+            toe = -18 * max(0.0, math.cos(ph)) * (1 if sw > 0 else 0.4)     # mũi chân chúc xuống khi nhấc
+            return (side * 6 + stride * sw, -lift), toe
+        # đứng: chân chịu lực thẳng dưới hông, chân kia thả lỏng
+        load = 0.5 + 0.5 * math.sin(t * 0.55 + seed * 2.0) * side * still
+        return (side * (20 + 8 * (1 - load)) * bodyk + hip_x * 0.5, 0), 0.0
 
-    def leg(foot, col):
-        fx, fy = foot
-        kx, ky = ik2(hip[0], hip[1], fx, fy - 6, LEG, LEG, bend=1)
-        pth = skia.Path(); pth.moveTo(*hip); pth.lineTo(kx, ky); pth.lineTo(fx, fy - 6)
-        c.drawPath(pth, P(INK, stroke=14))
+    def hose(a, j, b, width, col):
+        """Chi uốn cong mềm: đường cong đi qua khớp giữa (kiểu 'ống cao su')."""
+        cx, cy = 2 * j[0] - (a[0] + b[0]) / 2, 2 * j[1] - (a[1] + b[1]) / 2
+        pth = skia.Path(); pth.moveTo(*a); pth.quadTo(cx, cy, *b)
+        c.drawPath(pth, P(INK, stroke=width))
         if col:
-            c.drawPath(pth, P(col, stroke=8))
-        c.drawLine(fx - 4, fy - 4, fx + 24, fy - 4, P(INK, stroke=16))
+            c.drawPath(pth, P(col, stroke=width - 6))
+
+    def leg(foot_toe, col):
+        (fx, fy), toe = foot_toe
+        kx, ky = ik2(hip[0], hip[1], fx, fy - 6, LEG, LEG, bend=1)
+        hose(hip, (kx, ky), (fx, fy - 6), 14, col)
+        a = math.radians(toe)
+        c.drawLine(fx - 4, fy - 4, fx - 4 + 28 * math.cos(a), fy - 4 - 28 * math.sin(a) * -1, P(INK, stroke=16))
 
     leg_col = UNIFORM[1] if p.uniform else None
-    leg(p.foot_b or foot_pos(-1), leg_col)
-    leg(p.foot_f or foot_pos(1), leg_col)
+    leg((p.foot_b, 0.0) if p.foot_b else foot_pos(-1), leg_col)
+    leg((p.foot_f, 0.0) if p.foot_f else foot_pos(1), leg_col)
 
     c.save()
-    c.translate(*hip); c.rotate(p.lean + sway); c.translate(-hip[0], -hip[1])
-    sh = (0.0, hip[1] - TOR)
-    swing = 30 * math.sin(p.walk) if p.walk is not None else 6 * math.sin(t * 1.6 + seed)
+    c.translate(*hip); c.rotate(p.lean + sway + lean_auto); c.translate(-hip[0], -hip[1])
+    breath = 2.5 * math.sin(t * 2.1 + seed) * still
+    sh = (hip[0] - 0.6 * sway, hip[1] - TOR - breath)
 
     def arm(hand, side, col):
         if hand is None:
-            hx, hy = -side * swing * (1.4 if p.run else 1.0) + side * 26, 165 - (40 if p.run else 0)
+            if walking:
+                ph = p.walk + (0 if side < 0 else math.pi)
+                sw = math.sin(ph); lag = math.sin(ph - 0.7)               # cẳng tay trễ nhịp sau bắp tay
+                k = 1.5 if p.run else 1.0
+                hx = side * 22 + 38 * k * lag
+                hy = 160 - 22 * k * abs(sw) - (45 if p.run else 0)
+            else:
+                hx = side * 26 + 5 * math.sin(t * 1.3 + seed + side) * still
+                hy = 163 + 3 * math.sin(t * 2.1 + seed) * still
         else:
             hx, hy = hand
+            hx += 3 * math.sin(t * 1.7 + seed + side) * still               # tay đang giữ tư thế vẫn trôi rất nhẹ
+            hy += 3 * math.sin(t * 2.3 + seed * 1.3 + side) * still
         tx, ty = sh[0] + hx, sh[1] + hy
         ex, ey = ik2(sh[0], sh[1], tx, ty, 92, 88, bend=-1)
-        pth = skia.Path(); pth.moveTo(*sh); pth.lineTo(ex, ey); pth.lineTo(tx, ty)
-        c.drawPath(pth, P(INK, stroke=14))
-        if col:
-            c.drawPath(pth, P(col, stroke=8))
+        hose(sh, (ex, ey), (tx, ty), 14, col)
         c.drawCircle(tx, ty, 11, P(INK))
         return tx, ty
 
@@ -201,7 +229,9 @@ def draw_stick(c, p: Stick):
     if p.rifle == "shoulder":
         with _Xf(c, -18, sh[1] + 20, -24):
             c.drawLine(0, -40, 0, 240, P(INK, stroke=16)); c.drawLine(0, -40, 0, 240, P("#6E4E30", stroke=9))
-    c.drawLine(hip[0], hip[1], sh[0], sh[1], P(INK, stroke=14))
+    spine = skia.Path(); spine.moveTo(*hip)
+    spine.quadTo(hip[0] + 10 + 0.8 * sway, (hip[1] + sh[1]) / 2, sh[0], sh[1])          # sống lưng hơi cong
+    c.drawPath(spine, P(INK, stroke=14))
     # thân áo
     if cloth:
         w_top, w_bot = 22 * bodyk + 6, 36 * bodyk + 6
@@ -234,8 +264,12 @@ def draw_stick(c, p: Stick):
         c.drawCircle(hf[0], hf[1], 11, P(INK))
     # đầu (trễ nhịp nhẹ theo độ nghiêng)
     c.save()
-    hx, hy = sh[0] + 4, sh[1] - HR + 4
-    c.translate(hx, hy); c.rotate(p.head_tilt - (p.lean + sway) * 0.35)
+    hx, hy = sh[0] + 4, sh[1] - HR + 4 + head_bob
+    nod = (2.5 * math.sin(t * 0.9 + seed * 3) + 1.5 * math.sin(t * 2.3 + seed)) * still
+    c.translate(hx, hy); c.rotate(p.head_tilt + nod - (p.lean + sway + lean_auto) * 0.45)
+    if p.look == (0.0, 0.0) and p.eyes in ("dot", "wide"):
+        dart = math.floor((t + seed * 7) / 2.6)                         # thỉnh thoảng đảo mắt
+        p.look = (0.5 * math.sin(dart * 2.7), 0.25 * math.sin(dart * 1.9))
     _head(c, L, p, HR, t, seed)
     c.restore()
     c.restore()
