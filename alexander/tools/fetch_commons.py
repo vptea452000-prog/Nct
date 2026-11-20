@@ -88,7 +88,7 @@ def download(url, dst, tries=5):
                 dst.write_bytes(r.read()); return True
         except Exception as e:
             if "429" in str(e):
-                time.sleep(15 * (k + 1)); continue
+                return False      # cỡ này chưa có sẵn trong bộ đệm → thử cỡ khác, không chờ
             if "400" in str(e) or "404" in str(e) or "500" in str(e):
                 return False
             raise
@@ -103,12 +103,12 @@ for code, cands in ITEMS.items():
     got = None
     for title in cands:
         name = title.split(":", 1)[1].replace(" ", "_"); h = hashlib.md5(name.encode()).hexdigest()
-        tries = [thumb_url(title, w) for w in (WIDTH, 1280)] + [(f"https://upload.wikimedia.org/wikipedia/commons/{h[0]}/{h[:2]}/{urllib.parse.quote(name)}", Path(name).suffix.lower())]
+        tries = [thumb_url(title, w) for w in (3840, 1920, 1280, 1024, 960)] + [(f"https://upload.wikimedia.org/wikipedia/commons/{h[0]}/{h[:2]}/{urllib.parse.quote(name)}", Path(name).suffix.lower())]
         for url, ext in tries:
             dst = OUT / f"{code}{'.jpg' if ext in ('.jpeg',) else ext}"
             if download(url, dst):
                 got = title; break
-            time.sleep(1.5)
+            time.sleep(4)
         if got:
             break
     print(f"{code}: {got or 'KHÔNG TẢI ĐƯỢC'}", flush=True)
