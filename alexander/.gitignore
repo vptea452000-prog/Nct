@@ -9,3 +9,6 @@ assets/src/nguon_ov.tsv
 assets/user/
 assets/k/
 assets/fetch_ov.log
+audio/
+build/
+__pycache__/

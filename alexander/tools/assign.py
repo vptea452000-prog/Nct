@@ -17,4 +17,7 @@ MAP = {
 DST.mkdir(parents=True, exist_ok=True)
 for k, n in MAP.items():
     shutil.copy(SRC / f"100004{n}.jpg", DST / f"{k}.jpg")
+from PIL import Image
+for k in ("K16a", "K16b", "K54"):          # đầu tượng chụp nằm nghiêng → xoay đứng lại
+    im = Image.open(DST / f"{k}.jpg"); im.rotate(-90, expand=True).save(DST / f"{k}.jpg", quality=95)
 print(len(MAP), "file")
