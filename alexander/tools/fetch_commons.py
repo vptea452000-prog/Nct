@@ -8,35 +8,35 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "src"
 UA = {"User-Agent": "NctVideoResearch/1.0 (https://github.com/vptea452000-prog/nct)"}
-WIDTH = 1920   # cỡ ảnh thu nhỏ chuẩn của Wikimedia (tránh bị giới hạn khi tải bản gốc)
+WIDTH = 3840   # cỡ thu nhỏ chuẩn của Wikimedia (3840 / 1280 / 960…); cỡ khác bị chặn 429
 API = "https://commons.wikimedia.org/w/api.php"
 
-ITEMS = {
-    "K01a": "File:Tigris River in early morning.jpg",
-    "K01b": "File:Sunset in Baghdad, Iraq.jpg",
-    "K03": "?Macedonian phalanx Johnny Shumate",
-    "K04": "File:Middle East topographic map-blank.svg",
-    "K04b": "File:Satellite relief map of Middle East.png",
-    "K05a": "File:Hindu Kush Range.jpg",
-    "K05b": "?The army crosses the Gedrosian Desert Andre Castaigne",
-    "K06": "File:Darius III mosaic.jpg",
-    "K06b": "File:Alexandermosaic.jpg",
-    "K09": "File:Persepolis The Persian Soldiers.jpg",
-    "K11": "?Alexander addresses his officers before the battle of Issus Castaigne",
-    "K13": "File:Lysimachus coin, Alexander depiction, 297-282 B.C., Thrace.jpg",
-    "K13b": "File:Alexander coin, British Museum.jpg",
-    "K14": "?Alexander quelling the Opis mutiny Andre Castaigne",
-    "K16": "File:Alexandre Azara - Musée du Louvre AGER Ma 436 ; MR 405 (cropped).jpg",
-    "K16b": "?Marble head of Alexander the Great Giannitsa Pella",
-    "K18": "File:Philip II of Macedon Ny Carlsberg Glyptotek IN2263.jpg",
-    "K18b": "File:Ivory portrait of Philip II.jpg",
-    "K19": "?Roman Shepherd's Family with their Flock",
-    "K20": "?Pella Mosaics The Lion Hunt",
-    # để dành cho phần sau
-    "K29": "File:Charles Le Brun - Entry of Alexander into Babylon.JPG",
-    "K36": "?The marriages of Alexander and his men to the Persian princesses Castaigne",
-    "K45": "?Persépolis, Irán, 2016-09-24, DD 53",
-    "K52": "?The dying Alexander receiving his soldiers Castaigne",
+C = " by Andre Castaigne (1898-1899).jpg"
+ITEMS = {   # mã → danh sách tên file thử lần lượt
+    "K01a": ["File:Tigris River in early morning.jpg"],
+    "K01b": ["File:Sunset in Baghdad, Iraq.jpg"],
+    "K03": ["File:Macedonian phalanx.jpg", "File:Macedonian Phalanx.jpg", "File:Phalanx (Macedonian).jpg"],
+    "K04": ["File:Middle East topographic map-blank.svg"],
+    "K04b": ["File:Satellite relief map of Middle East.png"],
+    "K05a": ["File:Hindu Kush Range.jpg"],
+    "K05b": ["File:The army crosses the Gedrosian Desert" + C],
+    "K06": ["File:Darius III mosaic.jpg"],
+    "K06b": ["File:Alexandermosaic.jpg", "File:Alexander-Mosaic.jpg", "File:BattleofIssus333BC-mosaic.jpg"],
+    "K09": ["File:Persepolis The Persian Soldiers.jpg"],
+    "K11": ["File:Alexander addresses his officers before the battle of Issus" + C],
+    "K13": ["File:Lysimachus coin, Alexander depiction, 297-282 B.C., Thrace.jpg"],
+    "K13b": ["File:Alexander coin, British Museum.jpg"],
+    "K14": ["File:Alexander quelling the Opis mutiny" + C],
+    "K16": ["File:Alexandre Azara - Musée du Louvre AGER Ma 436 ; MR 405 (cropped).jpg"],
+    "K16b": ["File:Marble head of Alexander the Great (325-300 BC). Chance find from the area of Giannitsa, Archaeological Museum, Pella (6915004674).jpg"],
+    "K18": ["File:Philip II of Macedon Ny Carlsberg Glyptotek IN2263.jpg"],
+    "K18b": ["File:Ivory portrait of Philip II.jpg"],
+    "K19": ["File:Roman Shepherd's Family with their Flock (SM 555).png"],
+    "K20": ["File:Pella Mosaics I – The Lion Hunt (49988918902).jpg"],
+    "K29": ["File:Charles Le Brun - Entry of Alexander into Babylon.JPG"],
+    "K36": ["File:The marriages of Alexander and his men to the Persian princesses and ladies" + C],
+    "K45": ["File:Persépolis, Irán, 2016-09-24, DD 53.jpg"],
+    "K52": ["File:The dying Alexander receiving his soldiers" + C],
 }
 
 
@@ -97,27 +97,22 @@ def download(url, dst, tries=5):
 
 OUT.mkdir(parents=True, exist_ok=True)
 log = []
-for code, entry in ITEMS.items():
+for code, cands in ITEMS.items():
     if list(OUT.glob(f"{code}.*")):
         print(f"{code}: đã có"); continue
-    try:
-        title = resolve(entry)
-        if not title:
-            print(f"{code}: KHÔNG TÌM THẤY ({entry})"); log.append(f"{code}\t—\tkhông tìm thấy: {entry}"); continue
-        ok = False
-        for w in (WIDTH, 1280):
-            url, ext = thumb_url(title, w)
+    got = None
+    for title in cands:
+        name = title.split(":", 1)[1].replace(" ", "_"); h = hashlib.md5(name.encode()).hexdigest()
+        tries = [thumb_url(title, w) for w in (WIDTH, 1280)] + [(f"https://upload.wikimedia.org/wikipedia/commons/{h[0]}/{h[:2]}/{urllib.parse.quote(name)}", Path(name).suffix.lower())]
+        for url, ext in tries:
             dst = OUT / f"{code}{'.jpg' if ext in ('.jpeg',) else ext}"
             if download(url, dst):
-                ok = True; break
-        if not ok:   # ảnh nhỏ hơn 1920: tải bản gốc
-            name = title.split(":", 1)[1].replace(" ", "_"); h = hashlib.md5(name.encode()).hexdigest()
-            dst = OUT / f"{code}{Path(name).suffix.lower()}"
-            ok = download(f"https://upload.wikimedia.org/wikipedia/commons/{h[0]}/{h[:2]}/{urllib.parse.quote(name)}", dst)
-        print(f"{code}: {title} → {dst.name if ok else 'LỖI TẢI'}")
-        log.append(f"{code}\t{title}\thttps://commons.wikimedia.org/wiki/{urllib.parse.quote(title.replace(' ', '_'))}")
-        time.sleep(3)
-    except Exception as e:
-        print(f"{code}: LỖI {e}"); log.append(f"{code}\tlỗi\t{e}")
+                got = title; break
+            time.sleep(1.5)
+        if got:
+            break
+    print(f"{code}: {got or 'KHÔNG TẢI ĐƯỢC'}", flush=True)
+    log.append(f"{code}\t{got or '—'}\t" + (f"https://commons.wikimedia.org/wiki/{urllib.parse.quote((got or '').replace(' ', '_'))}" if got else "không tải được"))
+    time.sleep(3)
 with open(OUT / "nguon.txt", "a") as f:
     f.write("\n".join(log) + "\n")
