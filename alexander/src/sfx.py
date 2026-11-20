@@ -27,7 +27,7 @@ def pad(d, root=55.0, chord=(1, 1.5, 2, 3), bright=0.25, mod=0.07):
     for i, m in enumerate(chord):
         for det in (-0.12, 0.0, 0.12):
             f = root * m * (1 + det / 100)
-            ph = np.random.default_rng(i * 7 + int(det * 100)).uniform(0, 6.28)
+            ph = np.random.default_rng(i * 7 + int(det * 100) + 50).uniform(0, 6.28)
             x += np.sin(2 * np.pi * f * tt + ph) * (1.0 / (i + 1)) + bright * np.sin(4 * np.pi * f * tt + ph) / (i + 2)
     x *= 0.7 + 0.3 * np.sin(2 * np.pi * mod * tt)
     return norm(fade(lp(x, 1600), 3.0, 3.0))
