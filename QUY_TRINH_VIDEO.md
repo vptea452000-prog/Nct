@@ -11,3 +11,8 @@
    hiệu ứng tiếng; nhịp vừa phải, nhanh và mạnh ở cao trào; xuất 16:9 −14 LUFS. Bàn giao video + tiêu đề, mô tả, mốc thời gian.
 
 Không dùng cảnh phim — dựng bằng tranh, ảnh và bản đồ. Chủ kênh tự xử lý bản quyền; hình phải đúng người/sự kiện.
+
+## Phong cách hình ảnh (chủ kênh dặn 20/11/2026)
+- **Intro cuốn hút ngay từ những giây đầu:** mở bằng hình mạnh nhất + câu móc (hook), vào thẳng xung đột/câu hỏi, không dạo đầu dài; tiêu đề hiện sớm, gọn.
+- **Hiệu ứng đơn giản nhưng sang, không rối:** lia/zoom chậm và êm, chuyển cảnh mờ/đẩy nhẹ, chữ ít và đẹp (một kiểu chữ, căn đều, nhiều khoảng trống),
+  tông màu thống nhất, ánh sáng tinh tế; không dồn nhiều hiệu ứng cùng lúc, không chữ nhảy loạn, không màu chói.

@@ -86,3 +86,4 @@ Chủ kênh: "khá hay, khá vui" → định dạng phim hài không lời đư
   Hạn chế chuỗi câu ngắn liên tiếp kiểu "Bà không khóc. Bà chỉ nói…" — gộp thành câu có nhịp: "Bà không hề khóc, bà chỉ khẽ dặn…".
 - **Quy trình làm video tài liệu (20/11/2026):** xem `QUY_TRINH_VIDEO.md` — cùng viết kịch bản → Claude lập `NGUON.md` (mã khung hình, từ khóa tìm, nguồn nên tìm; chữ/số liệu/mũi tên bản đồ thì Claude tự tạo) → chủ kênh tải tư liệu, đặt tên theo mã, gửi 1 file .zip → Claude dựng.
 - **Bản quyền tư liệu (20/11/2026):** chủ kênh tự xử lý bản quyền → Claude gợi ý nguồn thoải mái (Google Hình ảnh, YouTube, kho lưu trữ…), chỉ ưu tiên bản rõ nét, không hình mờ. Quy tắc độ chính xác vẫn giữ: hình phải đúng người/sự kiện, không chắc thì hỏi.
+- **Phong cách video tài liệu (20/11/2026):** intro cuốn hút từ giây đầu; hiệu ứng đơn giản nhưng sang, không rối (xem QUY_TRINH_VIDEO.md).
