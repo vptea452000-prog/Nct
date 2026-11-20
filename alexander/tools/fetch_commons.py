@@ -56,13 +56,21 @@ def get(params, tries=6):
     raise RuntimeError("API vẫn bị giới hạn")
 
 
+OPENVERSE = "https://api.openverse.org/v1/images/"
+
+
 def resolve(entry):
-    if entry.startswith("?"):
-        d = get(dict(action="query", list="search", srsearch=entry[1:], srnamespace=6, srlimit=5))
-        hits = [h["title"] for h in d["query"]["search"] if h["title"].lower().endswith((".jpg", ".jpeg", ".png", ".tif", ".tiff", ".svg"))]
-        time.sleep(4)
-        return hits[0] if hits else None
-    return entry
+    """Tìm qua Openverse (chỉ mục cả Wikimedia, Flickr, bảo tàng) để tránh giới hạn của API Wikimedia."""
+    if not entry.startswith("?"):
+        return entry
+    q = OPENVERSE + "?" + urllib.parse.urlencode(dict(q=entry[1:], source="wikimedia", page_size=5))
+    with urllib.request.urlopen(urllib.request.Request(q, headers=UA), timeout=30) as r:
+        d = json.load(r)
+    for res in d.get("results", []):
+        land = res.get("foreign_landing_url", "")
+        if "commons.wikimedia.org/wiki/File:" in land:
+            return "File:" + urllib.parse.unquote(land.split("File:", 1)[1]).replace("_", " ")
+    return None
 
 
 def thumb_url(title, width=WIDTH):
