@@ -16,3 +16,10 @@ Không dùng cảnh phim — dựng bằng tranh, ảnh và bản đồ. Chủ k
 - **Intro cuốn hút ngay từ những giây đầu:** mở bằng hình mạnh nhất + câu móc (hook), vào thẳng xung đột/câu hỏi, không dạo đầu dài; tiêu đề hiện sớm, gọn.
 - **Hiệu ứng đơn giản nhưng sang, không rối:** lia/zoom chậm và êm, chuyển cảnh mờ/đẩy nhẹ, chữ ít và đẹp (một kiểu chữ, căn đều, nhiều khoảng trống),
   tông màu thống nhất, ánh sáng tinh tế; không dồn nhiều hiệu ứng cùng lúc, không chữ nhảy loạn, không màu chói.
+
+## Quy tắc dựng đã chốt (từ góp ý Alexander v2)
+- Bản đồ: dùng bản đồ thật có nguồn (ảnh vệ tinh NASA Blue Marble / Wikimedia Commons), ghi nguồn trong mô tả.
+- Bản đồ không kẻ đường nối/tuyến hành quân, chỉ hiện tên địa danh đúng lúc giọng đọc nhắc tới.
+- Chữ to giữa màn hình khi có từ quan trọng: năm, tên riêng, địa điểm, con số (canh theo thời điểm từng chữ trong voice).
+- Camera: mỗi ảnh chỉ zoom dứt khoát một hướng (vào hoặc ra), tốc độ đều, không lia qua lại; các ảnh liền nhau đổi chiều xen kẽ.
+- Kịch bản tiếp theo giữ phong cách như kịch bản Alexander (kể liền mạch, câu trọn vẹn, có từ nối).
