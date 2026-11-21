@@ -92,6 +92,16 @@ def align(path, sents):
             res[i][0] = g; res[i - 1][1] = g
     res[0][0] = max(0.0, sil[0][1] - 0.05 if sil and sil[0][0] < 0.05 else 0.0)
     res[-1][1] = dur
+    # thời điểm từng chữ: chia đều theo âm tiết bên trong khoảng thời gian (đã bám khoảng lặng) của câu
+    words = []
+    for (s0, s1, sent) in res:
+        ws = [w for w in re.split(r"\s+", sent) if w]
+        n = [max(1, syl(w)) for w in ws]
+        tot = sum(n); acc = 0
+        speak0, speak1 = s0 + 0.08, s1 - 0.25
+        for w, k in zip(ws, n):
+            words.append([round(speak0 + (speak1 - speak0) * acc / tot, 3), w]); acc += k
+    align.words = words
     return res, dur, len(peaks), total, sil
 
 
@@ -106,3 +116,4 @@ if __name__ == "__main__":
     for s0, s1, s in res:
         print(f"{s0:6.2f} {s1:6.2f}  {s}")
     json.dump(res, open(path.rsplit(".", 1)[0] + "_align.json", "w"), ensure_ascii=False, indent=1)
+    json.dump(align.words, open(path.rsplit(".", 1)[0] + "_words.json", "w"), ensure_ascii=False)

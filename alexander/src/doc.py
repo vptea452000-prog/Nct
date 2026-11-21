@@ -166,11 +166,33 @@ MAP_LON0, MAP_LON1, MAP_LAT0, MAP_LAT1 = 8.0, 82.0, 12.0, 50.0
 
 
 def lonlat(lon, lat, view):
-    """Chuyển kinh/vĩ → toạ độ khung, theo view = (lon tâm, lat tâm, độ rộng kinh độ hiển thị)."""
+    """Kinh/vĩ → toạ độ khung, view = (lon tâm, lat tâm, độ rộng kinh độ). Ảnh nền equirectangular nên tỉ lệ hai trục bằng nhau."""
     clon, clat, span = view
     k = W / span
-    kx = k * math.cos(math.radians(clat)) ** 0.0
-    return W / 2 + (lon - clon) * kx, H / 2 - (lat - clat) * k * 1.22
+    return W / 2 + (lon - clon) * k, H / 2 - (lat - clat) * k
+
+
+R_LON0, R_LON1, R_LAT0, R_LAT1 = 5.0, 85.0, 8.0, 52.0     # vùng cắt từ Blue Marble (NASA)
+
+
+@lru_cache(None)
+def map_raster():
+    """Ảnh vệ tinh Blue Marble (NASA, qua Wikimedia Commons) — cắt vùng, chỉnh màu ấm, trầm để chữ nổi."""
+    Image.MAX_IMAGE_PIXELS = None
+    src = Image.open(ROOT / "assets" / "map" / "bluemarble_12000.jpg")
+    Wd, Hd = src.size
+    box = (int((R_LON0 + 180) / 360 * Wd), int((90 - R_LAT1) / 180 * Hd), int((R_LON1 + 180) / 360 * Wd), int((90 - R_LAT0) / 180 * Hd))
+    im = src.crop(box).convert("RGB")
+    a = np.asarray(im).astype(np.float32) / 255.0
+    g = a.mean(axis=2, keepdims=True)
+    a = g + (a - g) * 0.72                                   # giảm bão hòa
+    a = a * np.array([1.04, 0.99, 0.90]) * 0.86              # ấm, trầm
+    sea = (a[..., 2] > a[..., 0] + 0.08) & (g[..., 0] < 0.25)
+    a[sea] = a[sea] * 0.55 + np.array([0.06, 0.09, 0.12]) * 0.45   # biển xanh đen dịu
+    a = np.clip(a, 0, 1)
+    arr = (a * 255).astype(np.uint8)
+    rgba = np.dstack([arr, np.full(arr.shape[:2], 255, np.uint8)])
+    return skia.Image.fromarray(rgba, colorType=skia.ColorType.kRGBA_8888_ColorType)
 
 
 @lru_cache(None)
@@ -240,24 +262,30 @@ SEA, LAND, LAND_HI, INK, GOLD = "#1A2329", "#B7A07A", "#D8C49A", "#2A2018", "#E8
 
 
 def map_base(c, view, t, dim=0.0):
-    c.drawRect(skia.Rect.MakeWH(W, H), P(SEA))
-    for k in range(9):            # gợn nước rất nhẹ
-        y = (k * 137 + t * 6) % H
-        c.drawLine(0, y, W, y + 30, P("#24313A", 70, stroke=2))
-    lp = land_path(view)
-    c.drawPath(lp, P("#0A0E10", 140, blur=18))
-    c.drawPath(lp, P("#5E4A30", 230, stroke=3.2))      # viền bờ biển (vẽ trước, phần biên giới hiện đại bị lớp đất phủ mất)
-    sh = skia.GradientShader.MakeLinear([skia.Point(0, 0), skia.Point(0, H)], [col(LAND_HI), col(LAND)])
-    fill = skia.Paint(AntiAlias=True, Shader=sh); fill.setStyle(skia.Paint.kStrokeAndFill_Style); fill.setStrokeWidth(1.2)
-    c.drawPath(lp, fill)
-    for name, pts in RIVERS.items():
-        pr = skia.Path()
-        for j, (lon, lat) in enumerate(pts):
-            x, y = lonlat(lon, lat, view)
-            (pr.moveTo if j == 0 else pr.lineTo)(x, y)
-        c.drawPath(pr, P("#5E7E8E", 200, stroke=2.4))
+    img = map_raster()
+    iw, ih = img.width(), img.height()
+    ppd = iw / (R_LON1 - R_LON0)
+    clon, clat, span = view
+    vw = span; vh = span * H / W
+    src = skia.Rect.MakeXYWH((clon - vw / 2 - R_LON0) * ppd, (R_LAT1 - (clat + vh / 2)) * ppd, vw * ppd, vh * ppd)
+    c.drawRect(skia.Rect.MakeWH(W, H), P("#0E1418"))
+    c.drawImageRect(img, src, skia.Rect.MakeWH(W, H), SAMP, skia.Paint(AntiAlias=True))
     if dim:
         c.drawRect(skia.Rect.MakeWH(W, H), P("#000000", 255 * dim))
+
+
+def map_label(c, view, lon, lat, text_, a, size=48, dot=False, italic=False):
+    """Tên địa danh trên bản đồ: chữ có chân, giãn cách, bóng mờ; điểm tròn nhỏ nếu là thành phố."""
+    if a <= 0:
+        return
+    x, y = lonlat(lon, lat, view)
+    s_ = 1.0 + 0.08 * (1 - ease(a))
+    if dot:
+        c.drawCircle(x, y, 9, P("#000000", 160 * a, blur=4)); c.drawCircle(x, y, 7, P("#F6E7C4", 255 * a))
+        y -= size * 0.55
+    c.save(); c.translate(x, y); c.scale(s_, s_)
+    draw_text(c, text_, 0, size * 0.35, "serif_i" if italic else "serif_b", size, "#FFF6E2", a=255 * a, spacing=size * 0.1)
+    c.restore()
 
 
 def region_glow(c, view, key, a, color=GOLD, label=True, size=34):
