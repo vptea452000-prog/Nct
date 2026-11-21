@@ -1,0 +1,234 @@
+1
+00:00:00,563 --> 00:00:02,419
+Hơn nửa đêm ngày
+26 tháng 9 năm 1983,
+
+2
+00:00:02,429 --> 00:00:05,591
+máy tính của Liên Xô báo rằng
+Mỹ vừa phóng tên lửa hạt nhân.
+
+3
+00:00:05,601 --> 00:00:07,858
+Người trực ca đêm
+đó phải quyết định
+
+4
+00:00:07,868 --> 00:00:09,910
+có báo lên cấp trên hay không.
+
+5
+00:00:09,920 --> 00:00:12,082
+Người ấy là
+trung tá Stanislav Petrov,
+
+6
+00:00:12,092 --> 00:00:13,987
+bốn mươi bốn tuổi,
+kỹ sư quân đội.
+
+7
+00:00:13,997 --> 00:00:14,778
+Ông trực tại Serpukhov-15,
+
+8
+00:00:14,788 --> 00:00:16,497
+một boong-ke bí mật
+ở phía nam Moskva.
+
+9
+00:00:16,507 --> 00:00:20,673
+Nơi đây nhận tín hiệu từ
+hệ thống vệ tinh cảnh báo sớm,
+
+10
+00:00:20,683 --> 00:00:22,543
+theo dõi các căn cứ
+tên lửa của Mỹ.
+
+11
+00:00:22,553 --> 00:00:24,586
+Việc của ông không phải
+là bấm nút đánh trả.
+
+12
+00:00:24,596 --> 00:00:26,885
+Việc của ông là báo lên
+trên khi có tấn công.
+
+13
+00:00:26,895 --> 00:00:29,069
+Lúc ấy quan hệ Mỹ và
+Liên Xô đang rất căng.
+
+14
+00:00:29,079 --> 00:00:29,979
+Chỉ ba tuần trước,
+
+15
+00:00:29,989 --> 00:00:32,580
+Liên Xô vừa bắn rơi một máy bay
+chở khách của Hàn Quốc.
+
+16
+00:00:32,590 --> 00:00:33,727
+Còi báo động rú lên.
+
+17
+00:00:33,737 --> 00:00:35,149
+Trên màn hình
+hiện chữ "phóng".
+
+18
+00:00:35,159 --> 00:00:37,651
+Hệ thống báo một tên lửa,
+rồi thêm bốn tên lửa nữa,
+
+19
+00:00:37,661 --> 00:00:40,587
+tổng cộng là năm, và mức
+tin cậy được ghi là cao nhất.
+
+20
+00:00:40,597 --> 00:00:41,749
+Petrov không tin.
+
+21
+00:00:41,759 --> 00:00:43,614
+Ông lý luận rằng nếu
+Mỹ thật sự mở đầu một
+
+22
+00:00:43,624 --> 00:00:46,285
+cuộc chiến hạt nhân, họ sẽ
+không chỉ phóng năm quả.
+
+23
+00:00:46,295 --> 00:00:49,361
+Còn radar mặt đất chỉ thấy
+được tên lửa khi nó đã bay gần,
+
+24
+00:00:49,371 --> 00:00:50,825
+nên lúc đó chưa thể xác nhận.
+
+25
+00:00:50,835 --> 00:00:52,992
+Ông báo lên trên rằng
+đây là lỗi hệ thống.
+
+26
+00:00:53,002 --> 00:00:54,089
+Rồi ông chờ.
+
+27
+00:00:54,099 --> 00:00:56,995
+Nếu ông sai, tên lửa sẽ
+tới trong vài phút nữa.
+
+28
+00:00:57,005 --> 00:00:59,703
+Khoảng hai mươi ba phút sau,
+vẫn không có gì xảy ra.
+
+29
+00:00:59,713 --> 00:01:00,838
+Ông đã đúng.
+
+30
+00:01:00,848 --> 00:01:02,871
+Về sau, người ta tìm
+ra nguyên nhân:
+
+31
+00:01:02,881 --> 00:01:04,571
+vệ tinh đã nhầm
+ánh nắng phản chiếu trên
+
+32
+00:01:04,581 --> 00:01:07,450
+những đám mây cao với
+lửa phụt ra từ tên lửa.
+
+33
+00:01:07,460 --> 00:01:08,820
+Petrov không được khen thưởng.
+
+34
+00:01:08,830 --> 00:01:10,601
+Ít ngày sau, ông
+còn bị khiển trách
+
+35
+00:01:10,611 --> 00:01:12,322
+vì ghi sổ trực không
+đúng quy định.
+
+36
+00:01:12,332 --> 00:01:13,913
+Năm sau, ông rời quân đội.
+
+37
+00:01:13,923 --> 00:01:15,870
+Chuyện đêm đó được
+giữ kín suốt mười lăm năm,
+
+38
+00:01:15,880 --> 00:01:17,839
+cho tới khi cấp trên
+cũ của ông là
+
+39
+00:01:17,849 --> 00:01:21,577
+tướng Yury Votintsev kể lại
+trong hồi ký năm 1998.
+
+40
+00:01:21,587 --> 00:01:23,039
+Từ đó, báo chí
+nhiều nước bắt đầu
+
+41
+00:01:23,049 --> 00:01:25,112
+gọi Petrov là người đã
+cứu thế giới.
+
+42
+00:01:25,122 --> 00:01:26,724
+Ông sống một mình
+bằng lương hưu
+
+43
+00:01:26,734 --> 00:01:28,581
+ở Fryazino, gần Moskva.
+
+44
+00:01:28,591 --> 00:01:31,819
+Ngày 19 tháng 5
+năm 2017, ông qua đời.
+
+45
+00:01:31,829 --> 00:01:34,040
+Gần bốn tháng sau
+mới có người biết.
+
+46
+00:01:34,050 --> 00:01:36,413
+Ngày 7 tháng 9, sinh nhật
+ông, một người bạn
+
+47
+00:01:36,423 --> 00:01:38,480
+Đức là Karl Schumacher
+gọi điện chúc mừng.
+
+48
+00:01:38,490 --> 00:01:40,783
+Người nghe máy là
+con trai ông, Dmitry.
+
+49
+00:01:40,793 --> 00:01:43,263
+Anh báo rằng cha mình
+đã mất từ tháng 5.
+

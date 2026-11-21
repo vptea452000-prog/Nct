@@ -1,0 +1,15 @@
+assets/raw*/
+assets/src/*.jpg
+assets/src/*.png
+assets/src/*.jpeg
+assets/src/*.svg
+assets/src/nguon.txt
+assets/fetch.log
+assets/src/nguon_ov.tsv
+assets/user/
+assets/k/
+assets/fetch_ov.log
+audio/
+build/
+__pycache__/
+assets/map/

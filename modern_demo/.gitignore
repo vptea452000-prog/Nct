@@ -1,0 +1,6 @@
+build/pv_*.png
+build/Modern_demo_nosfx.mp4
+build/sfx_stem.wav
+build/mix_voice_sfx.wav
+audio/
+__pycache__/
