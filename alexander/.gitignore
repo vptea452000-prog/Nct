@@ -13,3 +13,5 @@ audio/
 build/
 __pycache__/
 assets/map/
+thumb/_*
+thumb/head_cut.png
