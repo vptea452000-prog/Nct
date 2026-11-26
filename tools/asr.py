@@ -6,7 +6,10 @@ from faster_whisper import WhisperModel
 root = Path(sys.argv[1]); name = sys.argv[2] if len(sys.argv) > 2 else "small"
 t = time.time()
 m = WhisperModel(name, device="cpu", compute_type="int8", cpu_threads=4)
-segs, info = m.transcribe(str(root / "audio" / "voice_raw.mp3"), language="vi", word_timestamps=True, beam_size=5, vad_filter=False)
+import subprocess, numpy as np
+raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(root / "audio" / "voice_raw.mp3"), "-ac", "1", "-ar", "16000", "-f", "f32le", "-"], capture_output=True).stdout
+audio = np.frombuffer(raw, np.float32).copy()
+segs, info = m.transcribe(audio, language="vi", word_timestamps=True, beam_size=5, vad_filter=False)
 out = []
 for s in segs:
     for w in s.words:
