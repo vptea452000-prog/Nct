@@ -19,13 +19,6 @@ Video kể lại cuộc đời Adolf Hitler: từ tuổi thơ ở Braunau am Inn
 1:33 Thế chiến thứ nhất
 2:27 Đảng Quốc xã
 3:00 Đảo chính và Mein Kampf
-3:37 Con đường đến quyền lực
-4:13 Lên nắm quyền
-4:58 Đàn áp người Do Thái
-5:17 Bành trướng và Thế chiến thứ hai
-5:58 Holocaust
-6:19 Sụp đổ
-6:58 Di sản
 
 🗺️ Bản đồ: NASA Blue Marble / Wikimedia Commons
 📷 Ảnh tư liệu: Bundesarchiv, USHMM, Imperial War Museums, Library of Congress, Wikimedia Commons
