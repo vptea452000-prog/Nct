@@ -12,13 +12,35 @@ BUILD = ROOT / "build"
 SUBS = True
 
 
+# Giọng gốc giữ nguyên: câu i được đọc ở [o0, o1) của file gốc; hình dựng theo "thời gian kịch bản" [r0, r1).
+import json as _json
+SEGS = sorted(_json.load(open(ROOT / "audio" / "segments.json")), key=lambda q: q[1]) if (ROOT / "audio" / "segments.json").exists() else None
+
+
+def to_script(t):
+    """giây video → (giây kịch bản để vẽ, giây kịch bản cuối câu liền trước nếu vừa nhảy câu, tỉ lệ hòa)."""
+    tv = t - S.OFF
+    if SEGS is None or tv < 0:
+        return t, None, 0
+    for k, (i, o0, o1, r0, r1) in enumerate(SEGS):
+        if o0 <= tv < o1 or k == len(SEGS) - 1:
+            ts = tv - o0 + r0 + S.OFF
+            if k > 0 and SEGS[k - 1][0] != i - 1 and tv - o0 < 0.35:       # nhảy câu: hòa nhẹ từ khung trước
+                return ts, SEGS[k - 1][4] - 0.001 + S.OFF, 1 - (tv - o0) / 0.35
+            return ts, None, 0
+    return t, None, 0
+
+
 def frame(t, surf=None):
     surf = surf or skia.Surface(W, H)
     c = surf.getCanvas(); c.clear(skia.ColorBLACK)
-    c.save(); S.draw(c, t); c.restore()
+    ts, tprev, mix = to_script(t)
+    c.save(); S.draw(c, ts); c.restore()
+    if tprev is not None:
+        c.saveLayerAlpha(None, int(255 * mix)); S.draw(c, tprev); c.restore()
     finish(c, t)
     if SUBS:
-        subtitle(c, t, S.ALIGN, S.OFF, 1e9)
+        subtitle(c, ts, S.ALIGN, S.OFF, 1e9)
     if t > S.DUR - 1.2:
         c.drawRect(skia.Rect.MakeWH(W, H), skia.Paint(Color=skia.ColorSetARGB(int(255 * min(1, (t - (S.DUR - 1.2)) / 1.2)), 0, 0, 0)))
     return surf.makeImageSnapshot().toarray(colorType=skia.ColorType.kRGBA_8888_ColorType)

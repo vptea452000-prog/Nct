@@ -42,7 +42,15 @@ for k, i in enumerate(order):
     ramp = np.linspace(0, 1, f)[:, None]
     seg[i][:f] *= ramp; seg[i][-f:] *= ramp[::-1]
 y = np.concatenate([seg[i] for i in range(len(sents))])
+# bảng ánh xạ thời gian: câu i nằm ở [o0, o1) trong file gốc và [r0, r1) trong file đã sắp
+segs, r = [], 0.0
+for i in range(len(sents)):
+    L = len(seg[i]) / SR; o0 = cuts[i]
+    segs.append([i, round(o0, 4), round(o0 + L, 4), round(r, 4), round(r + L, 4)]); r += L
+json.dump(segs, open(root / "audio" / "segments.json", "w"), indent=1)
 moved = [i + 1 for k, i in enumerate(order) if i != k]
+if "--map-only" in sys.argv:
+    sys.exit(print("đã ghi audio/segments.json"))
 p = subprocess.Popen(["ffmpeg", "-y", "-v", "error", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", "-", "-b:a", "256k",
                       str(root / "audio" / "voice_raw.mp3")], stdin=subprocess.PIPE)
 p.stdin.write(y.astype(np.float32).tobytes()); p.stdin.close(); p.wait()

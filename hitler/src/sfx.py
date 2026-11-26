@@ -12,7 +12,16 @@ from sfx_lib import ev, noise, bp, lp, hp, env_exp, t_, norm, SR  # noqa
 OFF = 4.5
 DUR = OFF + 435.65 + 1.5
 S.configure(ROOT, DUR)
-T = lambda tv: tv + OFF
+import json
+SEGS = json.load(open(ROOT / "audio" / "segments.json"))
+
+
+def T(x):
+    """giây kịch bản (giọng đã sắp) → giây video trên giọng gốc (giọng gốc giữ nguyên, câu có thể đọc lệch thứ tự)."""
+    for i, o0, o1, r0, r1 in SEGS:
+        if r0 <= x < r1:
+            return x - r0 + o0 + OFF
+    return x + OFF
 
 
 def fade(x, a=1.0, b=1.0):
@@ -77,13 +86,12 @@ def planes(d):
     return norm(fade(lp(x + bp(noise(d), 80, 400) * 2, 900) * np.sin(np.pi * tt / d) ** 1.5, 0.5, 0.5))
 
 
-# nền theo chương
-for a, b, root, chord in [(0.0, T(25.80), 55.0, (1, 1.5, 2, 2.4)), (T(25.80), T(88.78), 49.0, (1, 1.2, 1.5, 2)),
-                          (T(88.78), T(142.92), 46.2, (1, 1.5, 2, 2.4)), (T(142.92), T(249.41), 43.6, (1, 1.2, 1.5, 2)),
-                          (T(249.41), T(324.80), 41.2, (1, 1.2, 1.5, 2)), (T(324.80), T(353.99), 38.9, (1, 1.5, 2, 2.4)),
-                          (T(353.99), T(375.15), 36.7, (1, 1.2, 1.5, 1.9)), (T(375.15), T(413.47), 41.2, (1, 1.2, 1.5, 2)),
-                          (T(413.47), DUR, 43.6, (1, 1.5, 2, 2.4))]:
-    ev(a, pad(b - a + 3.0, root, chord), -27)
+# nền: lớp dây trầm đổi hợp âm êm theo thời gian (không theo chương vì giọng gốc đọc lệch thứ tự)
+PADS = [(55.0, (1, 1.5, 2, 2.4)), (49.0, (1, 1.2, 1.5, 2)), (46.2, (1, 1.5, 2, 2.4)), (43.6, (1, 1.2, 1.5, 2)),
+        (41.2, (1, 1.2, 1.5, 2)), (38.9, (1, 1.5, 2, 2.4)), (41.2, (1, 1.2, 1.5, 1.9)), (43.6, (1, 1.5, 2, 2.4))]
+step = DUR / len(PADS)
+for k, (root, chord) in enumerate(PADS):
+    ev(k * step, pad(step + 3.0, root, chord), -27)
 # mở đầu & tiết lộ tên
 ev(1.0, chime(330, 4.0), -26); ev(T(25.80), drum(41, 3.0), -6)
 ev(T(25.80), norm(S.sweep(60, 30, 2.0) * np.linspace(1, 0, int(2.0 * SR))), -16)
