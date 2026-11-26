@@ -23,3 +23,7 @@ Không dùng cảnh phim — dựng bằng tranh, ảnh và bản đồ. Chủ k
 - Chữ to giữa màn hình khi có từ quan trọng: năm, tên riêng, địa điểm, con số (canh theo thời điểm từng chữ trong voice).
 - Camera: mỗi ảnh chỉ zoom dứt khoát một hướng (vào hoặc ra), tốc độ đều, không lia qua lại; các ảnh liền nhau đổi chiều xen kẽ.
 - Kịch bản tiếp theo giữ phong cách như kịch bản Alexander (kể liền mạch, câu trọn vẹn, có từ nối).
+
+## Căn giọng đọc (từ tập Hitler)
+- Dùng Whisper (`tools/asr.py <tập>`, chạy với `HF_HUB_DISABLE_XET=1`) để lấy thời điểm từng chữ, rồi `tools/align_asr.py <tập>` ghép với kịch bản. Không dùng cách đếm âm tiết cũ nữa.
+- Luôn kiểm tra thứ tự câu trong file giọng so với kịch bản. **Không cắt ghép giọng của chủ kênh.** Nếu giọng đọc lệch thứ tự, giữ nguyên giọng và cho hình chạy theo câu đang đọc (`audio/segments.json`), đồng thời báo chủ kênh để xuất lại giọng nếu muốn đúng mạch.
