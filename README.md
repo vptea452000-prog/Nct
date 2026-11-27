@@ -1,2 +1,21 @@
-# Nct
-123456
+# Nct official — sản xuất video
+
+Kênh kể chuyện lịch sử có thật bằng tiếng Việt (trước đây là Vox'NCT; từng đổi tên Tuấn Nguyễn một thời gian ngắn). Hồ sơ kênh: [KENH.md](KENH.md).
+
+| Tập | Thư mục | Trạng thái |
+|---|---|---|
+| Bức điện báo thiếu nước ở Midway đã khiến quân Nhật để lộ điều gì? | [midway_v2/](midway_v2/) | v2 đã chốt; còn việc trước khi đăng trong `BAN_GIAO.md` |
+| Vì sao một sĩ quan Ba Lan tự nộp mình vào Auschwitz? | [pilecki/](pilecki/) | **v1 đã chốt** (có hiệu ứng tiếng) — `BAN_GIAO.md` |
+| Vì sao một điệp viên được cả Hitler lẫn nước Anh trao huân chương? | [garbo/](garbo/) | **v1 đã chốt** (có hiệu ứng tiếng) — `BAN_GIAO.md` |
+| Vì sao tình báo Anh thả xác một người lạ xuống biển Tây Ban Nha? | [mincemeat/](mincemeat/) | **v1 đã chốt** (có hiệu ứng tiếng) — `BAN_GIAO.md` |
+| Vì sao Mona Lisa biến mất hơn một ngày mới có người nhận ra? | [monalisa/](monalisa/) | **v1 đã chốt** (có hiệu ứng tiếng) — `BAN_GIAO.md` |
+| Năm 1983, vì sao một sĩ quan Liên Xô không báo động khi máy tính báo Mỹ phóng tên lửa? | [petrov/](petrov/) | **v1 đã chốt** (có hiệu ứng tiếng) — `BAN_GIAO.md` |
+| Vì sao một người lính Nhật vẫn chiến đấu 29 năm sau khi chiến tranh kết thúc? | [onoda/](onoda/) | **v2 đã chốt** (hoạt hình thuần, có hiệu ứng tiếng) — `BAN_GIAO.md` |
+| Vì sao trong người bạn có ADN của một loài người đã tuyệt chủng? | [neanderthal/](neanderthal/) | v1 đã dựng; 2 câu nên thu lại — `BAN_GIAO.md` |
+| Tập 1: Lửa (phim hài không lời) | [lua/](lua/) | **v1 chủ kênh duyệt** — `BAN_GIAO.md` |
+| Tập 2: Cây giáo (phim hài không lời) | [giao/](giao/) | v1 chốt (chủ kênh đã lưu); `demo/` là thử nghiệm bộ khung v2 — `BAN_GIAO.md` |
+| Tập 3: Kim khâu và áo da (phim hài không lời, bộ khung v2) | [ao/](ao/) | v1 đã dựng; chờ chủ kênh duyệt — `BAN_GIAO.md` |
+| Tập 4: Dây thừng (phim hài không lời, bộ khung v2) | [day/](day/) | v1 đã dựng; chờ chủ kênh duyệt — `BAN_GIAO.md` |
+| Nếu bạn là người lính Nhật trong Thế Chiến II (kể chuyện 16:9, người que) | [linh_nhat/](linh_nhat/) | v1 hoàn chỉnh 4:17 — `final/Linh_Nhat_v1.mp4` |
+| Nếu bạn là hành khách hạng ba trên tàu Titanic (kể chuyện 16:9, người que) | [titanic/](titanic/) | v1 hoàn chỉnh 6:44 — `build/Titanic_v1.mp4` |
+| Bài diễn văn của Alexander ở Opis (tài liệu 16:9, tranh + bản đồ) | [alexander/](alexander/) | v1 6:33 — `build/Alexander_v1.mp4` (không đưa lên kho vì nặng) |

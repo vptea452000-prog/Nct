@@ -1,0 +1,12 @@
+audio/
+build/pv_*.png
+build/*_nosfx.mp4
+build/sfx_stem.wav
+build/mix_voice_sfx.wav
+build/c_*.mp4
+build/c.txt
+build/render.log
+build/sheet_*.png
+__pycache__/
+build/seg_*.mp4
+build/p.txt

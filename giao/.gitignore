@@ -1,0 +1,9 @@
+build/chunks.txt
+build/preview_*.png
+build/pv*.png
+build/Giao_v1_nosfx.mp4
+build/mix_voice_sfx.wav
+audio/voice.mp3
+__pycache__/
+build/demo_pv_*.png
+build/lipsync_cache.npz

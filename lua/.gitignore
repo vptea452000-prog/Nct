@@ -1,0 +1,7 @@
+build/chunks.txt
+build/preview_*.png
+build/pv*.png
+build/Lua_v1_nosfx.mp4
+build/mix_voice_sfx.wav
+audio/voice.mp3
+__pycache__/
