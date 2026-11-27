@@ -27,3 +27,10 @@ Không dùng cảnh phim — dựng bằng tranh, ảnh và bản đồ. Chủ k
 ## Căn giọng đọc (từ tập Hitler)
 - Dùng Whisper (`tools/asr.py <tập>`, chạy với `HF_HUB_DISABLE_XET=1`) để lấy thời điểm từng chữ, rồi `tools/align_asr.py <tập>` ghép với kịch bản. Không dùng cách đếm âm tiết cũ nữa.
 - Luôn kiểm tra thứ tự câu trong file giọng so với kịch bản. **Không cắt ghép giọng của chủ kênh.** Nếu giọng đọc lệch thứ tự, giữ nguyên giọng và cho hình chạy theo câu đang đọc (`audio/segments.json`), đồng thời báo chủ kênh để xuất lại giọng nếu muốn đúng mạch.
+
+## Nhịp hình theo nhịp giọng (yêu cầu chủ kênh, áp dụng mọi tập)
+- Mốc cảnh đặt theo thời điểm Whisper của chữ đầu câu/cụm, cảnh chuyển rơi vào chỗ ngắt hơi của giọng, không đặt theo ước lượng.
+- Mỗi ảnh khoảng 3–6 giây. Câu dài thì chia 2 ảnh theo dấu phẩy. Đoạn giọng đọc nhanh hoặc liệt kê (tên nước, năm) thì chuyển hình nhanh theo từng tên. Đoạn trầm (mất mát, kết) thì ảnh dài hơn, zoom chậm hơn.
+- Tốc độ zoom tỉ lệ với độ dài cảnh: cảnh ngắn zoom ít, cảnh dài zoom nhiều hơn, không để ảnh đứng yên quá lâu.
+- Chữ lớn và tên trên bản đồ hiện đúng lúc chữ đó được đọc (sai lệch không quá 0,2 giây).
+- Trước khi xuất bản cuối, kiểm tra đồng bộ: đối chiếu khung hình với lời Whisper ở ít nhất 5 điểm rải đều, **bắt buộc có đoạn cuối video**, để chắc chắn không bị trôi về sau.
